@@ -333,6 +333,7 @@ async function doLogin() {
 async function doLogout() {
   await db.auth.signOut();
   currentUser = null; currentProfile = null;
+  try { localStorage.removeItem('fda_navAuth'); } catch(e) {}
   window.location.href = 'index.html';
 }
 
@@ -905,3 +906,135 @@ function buildQuizHistory(scores) {
 // INIT — must be last
 // ══════════════════════════════════════════
 checkSession();
+
+// ══════════════════════════════════════════
+// FDA SHARED BOTTOM NAV (mobile)
+// One source of truth for every page.
+// - Injects its own CSS + markup; removes any
+//   hardcoded .bottom-nav left in old pages.
+// - 5 fixed slots, center = IQ Quiz CTA, so
+//   icon positions never shift between pages.
+// - Swaps item set on auth state (cached in
+//   localStorage to avoid flash, corrected on
+//   sessionReady).
+// ══════════════════════════════════════════
+
+var FDA_NAV = (function () {
+
+  var ICONS = {
+    home: '<svg viewBox="0 0 24 24" fill="none"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 22V12h6v10" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+    playbook: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="1.8"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+    iq: '<svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2z" fill="currentColor"/></svg>',
+    coaches: '<svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    signin: '<svg viewBox="0 0 24 24" fill="none"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10 17l5-5-5-5M15 12H3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    learn: '<svg viewBox="0 0 24 24" fill="none"><polygon points="6 3 20 12 6 21 6 3" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+    dashboard: '<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.8"/></svg>'
+  };
+
+  // 5 fixed slots; slot 3 (index 2) is always the IQ Quiz CTA.
+  var SETS = {
+    out: [
+      { id: 'home',     label: 'Home',     href: 'index.html',    icon: 'home' },
+      { id: 'playbook', label: 'Playbook', href: 'program.html',  icon: 'playbook' },
+      { id: 'iq',       label: 'IQ Quiz',  href: 'giq-exam.html', icon: 'iq', cta: true },
+      { id: 'coaches',  label: 'Coaches',  href: 'coaches.html',  icon: 'coaches' },
+      { id: 'signin',   label: 'Sign In',  href: 'auth.html?tab=login', icon: 'signin' }
+    ],
+    in: [
+      { id: 'home',      label: 'Home',      href: 'index.html',     icon: 'home' },
+      { id: 'playbook',  label: 'Playbook',  href: 'program.html',   icon: 'playbook' },
+      { id: 'iq',        label: 'IQ Quiz',   href: 'giq-exam.html',  icon: 'iq', cta: true },
+      { id: 'learn',     label: 'Learn',     href: 'lesson.html',    icon: 'learn' },
+      { id: 'dashboard', label: 'Dashboard', href: 'dashboard.html', icon: 'dashboard' }
+    ]
+  };
+
+  // pathname -> active item id
+  var ACTIVE = {
+    'index': 'home', '': 'home',
+    'program': 'playbook',
+    'giq-exam': 'iq', 'score-share': 'iq',
+    'coaches': 'coaches',
+    'auth': 'signin',
+    'lesson': 'learn',
+    'dashboard': 'dashboard'
+  };
+
+  var CSS = [
+    '.fda-bnav{position:fixed;bottom:0;left:0;right:0;z-index:400;height:calc(64px + env(safe-area-inset-bottom,0px));padding:0 6px env(safe-area-inset-bottom,0px);background:rgba(2,10,20,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:stretch;justify-content:space-around;}',
+    '@media(min-width:1024px){.fda-bnav{display:none;}}',
+    'body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px));}',
+    '@media(min-width:1024px){body{padding-bottom:0;}}',
+    '.fda-bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:#5a6b84;font-family:"Barlow Condensed",sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;position:relative;}',
+    '.fda-bnav-item svg{width:21px;height:21px;}',
+    '.fda-bnav-item:hover{color:#8fa1bb;}',
+    '.fda-bnav-item.active{color:#C1FF22;}',
+    '.fda-bnav-item.active::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:22px;height:2px;background:#C1FF22;}',
+    '.fda-bnav-cta{flex:1;display:flex;align-items:center;justify-content:center;text-decoration:none;position:relative;}',
+    '.fda-bnav-cta .fda-bnav-bubble{width:48px;height:48px;margin-top:-18px;background:#C1FF22;color:#061000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);box-shadow:0 6px 22px rgba(193,255,34,.45),0 0 0 5px #020f1e;transition:transform .2s cubic-bezier(.65,0,.35,1);}',
+    '.fda-bnav-cta:active .fda-bnav-bubble{transform:scale(.94);}',
+    '.fda-bnav-cta .fda-bnav-bubble svg{width:20px;height:20px;}',
+    '.fda-bnav-cta .fda-bnav-cta-label{position:absolute;bottom:7px;left:0;right:0;text-align:center;font-family:"Barlow Condensed",sans-serif;font-size:9px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#C1FF22;}',
+    '.fda-bnav-cta.active .fda-bnav-bubble{background:#d8ff55;}'
+  ].join('\n');
+
+  function currentPage() {
+    var p = window.location.pathname.split('/').pop().replace('.html', '');
+    return ACTIVE[p] || '';
+  }
+
+  function isLoggedIn() {
+    if (typeof currentUser !== 'undefined' && currentUser) return true;
+    try { return localStorage.getItem('fda_navAuth') === '1'; } catch (e) { return false; }
+  }
+
+  function render() {
+    // Inject CSS once
+    if (!document.getElementById('fdaBnavCss')) {
+      var st = document.createElement('style');
+      st.id = 'fdaBnavCss';
+      st.textContent = CSS;
+      document.head.appendChild(st);
+    }
+
+    // Remove legacy hardcoded navs + previous render
+    document.querySelectorAll('.bottom-nav, .fda-bnav').forEach(function (el) { el.remove(); });
+
+    var items = isLoggedIn() ? SETS.in : SETS.out;
+    var active = currentPage();
+
+    var nav = document.createElement('nav');
+    nav.className = 'fda-bnav';
+    nav.setAttribute('aria-label', 'Primary');
+    nav.innerHTML = items.map(function (it) {
+      if (it.cta) {
+        return '<a class="fda-bnav-cta' + (active === it.id ? ' active' : '') + '" href="' + it.href + '" aria-label="' + it.label + '">'
+          + '<span class="fda-bnav-bubble">' + ICONS[it.icon] + '</span>'
+          + '<span class="fda-bnav-cta-label">' + it.label + '</span>'
+          + '</a>';
+      }
+      return '<a class="fda-bnav-item' + (active === it.id ? ' active' : '') + '" href="' + it.href + '">'
+        + ICONS[it.icon] + it.label + '</a>';
+    }).join('');
+
+    document.body.appendChild(nav);
+  }
+
+  // First paint from cached auth state (no flash)…
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', render);
+  } else {
+    render();
+  }
+
+  // …then correct once the real session is known.
+  document.addEventListener('sessionReady', function () {
+    try {
+      if (typeof currentUser !== 'undefined' && currentUser) localStorage.setItem('fda_navAuth', '1');
+      else localStorage.removeItem('fda_navAuth');
+    } catch (e) {}
+    render();
+  });
+
+  return { render: render };
+})();

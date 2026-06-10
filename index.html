@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>First Down Academy — Gridiron Intelligence Platform</title>
 <meta name="description" content="Test your Gridiron IQ. Build your football knowledge. Track your improvement. Free for players ages 8–18.">
+<!-- Open Graph / social sharing -->
+<meta property="og:title" content="First Down Academy — Test Your Gridiron IQ">
+<meta property="og:description" content="15 adaptive questions. Instant letter grade. Free football education for players ages 8–18.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://firstdownacademy.com/">
+<meta property="og:image" content="https://firstdownacademy.com/og-card.png"><!-- TODO: create 1200x630 og-card.png -->
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900&family=Barlow:wght@400;500&family=JetBrains+Mono:wght@500;700&family=Fraunces:ital,opsz,wght@1,9..144,300&display=swap" rel="stylesheet">
@@ -27,6 +34,8 @@ html { scroll-behavior: smooth; }
   --fb: 'Barlow', sans-serif;
   --fm: 'JetBrains Mono', ui-monospace, monospace;
   --fs: 'Fraunces', Georgia, serif;
+  --ease: cubic-bezier(.22, 1, .36, 1);       /* decel — entrances, reveals */
+  --ease-io: cubic-bezier(.65, 0, .35, 1);    /* in-out — hovers, movement */
 }
 body {
   background: var(--bg);
@@ -36,8 +45,43 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
+/* Film grain — material texture over everything */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 900;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: .04;
+  mix-blend-mode: overlay;
+}
 a { text-decoration: none; color: inherit; }
 button { font-family: inherit; }
+::selection { background: var(--lime); color: #061000; }
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border: 3px solid var(--bg); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted2); }
+:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+/* DRIVE BAR — scroll progress as field position */
+.drive-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  height: 3px;
+  background: transparent;
+  pointer-events: none;
+}
+.drive-bar-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(193,255,34,.5), var(--lime));
+  transform-origin: left;
+  transform: scaleX(0);
+  box-shadow: 0 0 12px rgba(193,255,34,.5);
+}
 
 /* NAV */
 .nav {
@@ -198,7 +242,9 @@ button { font-family: inherit; }
   padding: 15px 26px;
   display: inline-flex; align-items: center; gap: 12px;
   cursor: pointer; border: none;
-  transition: all .2s;
+  transition: background .25s var(--ease-io), border-color .25s var(--ease-io), transform .25s var(--ease-io), box-shadow .25s var(--ease-io);
+  position: relative;
+  overflow: hidden;
 }
 .btn-primary {
   background: var(--lime); color: #061000;
@@ -206,16 +252,37 @@ button { font-family: inherit; }
   padding: 15px 30px;
   box-shadow: 0 8px 30px -10px rgba(193,255,34,.45);
 }
-.btn-primary:hover { background: #d8ff55; transform: translateY(-2px); }
+.btn-primary::before {
+  content: '';
+  position: absolute; top: 0; bottom: 0; left: -80%;
+  width: 50%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,.55), transparent);
+  transform: skewX(-18deg);
+  transition: left .55s var(--ease-io);
+}
+.btn-primary:hover::before { left: 130%; }
+.btn-primary:hover {
+  background: #d8ff55;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px -10px rgba(193,255,34,.6);
+}
+.btn-primary:active { transform: translateY(0); transition-duration: .08s; }
 .btn-ghost {
   background: transparent; color: #fff;
   border: 1px solid var(--border2);
   padding: 14px 24px;
 }
+.btn-ghost::after {
+  content: '';
+  position: absolute; left: 0; right: 100%; bottom: 0;
+  height: 2px; background: var(--lime);
+  transition: right .35s var(--ease-io);
+}
 .btn-ghost:hover { border-color: rgba(255,255,255,.5); background: rgba(255,255,255,.04); }
+.btn-ghost:hover::after { right: 0; }
 .btn-arrow {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 20px; height: 20px; transition: transform .2s;
+  width: 20px; height: 20px; transition: transform .25s var(--ease-io);
 }
 .btn:hover .btn-arrow { transform: translateX(3px); }
 
@@ -223,6 +290,13 @@ button { font-family: inherit; }
   .hero { padding: 100px 20px 40px; min-height: auto; }
   .hero-h1 { font-size: clamp(56px, 14vw, 84px); }
 }
+/* Hero load orchestration */
+.hero-meta.fade-up { animation-delay: .05s; }
+.hero-h1.fade-up   { animation-delay: .15s; }
+.hero-sub.fade-up  { animation-delay: .3s; }
+.hero-btns.fade-up { animation-delay: .42s; }
+.hero-playbook { animation: playbook-in 1.4s var(--ease) .5s both; }
+@keyframes playbook-in { from { opacity: 0; transform: translateX(24px); } to { opacity: .9; transform: translateX(0); } }
 
 /* TICKER */
 .ticker {
@@ -239,8 +313,9 @@ button { font-family: inherit; }
 .ticker::after  { right: 0; background: linear-gradient(-90deg, var(--red), transparent); }
 .ticker-track {
   display: inline-flex; white-space: nowrap;
-  animation: ticker-scroll 38s linear infinite;
+  animation: ticker-scroll 44s linear infinite;
 }
+.ticker:hover .ticker-track { animation-play-state: paused; }
 @keyframes ticker-scroll { to { transform: translateX(-50%); } }
 .ticker-item {
   font-family: var(--fd); font-weight: 800; font-size: 12px;
@@ -354,7 +429,14 @@ button { font-family: inherit; }
   border-right: 1px solid var(--border);
   position: relative;
   overflow: hidden;
-  transition: background .2s;
+  transition: background .3s var(--ease-io);
+  background-image: linear-gradient(180deg, rgba(255,255,255,.025), transparent 64px);
+}
+.level:not(.is-locked)::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--lime), rgba(193,255,34,.15));
 }
 .level:last-child { border-right: none; }
 @media (max-width: 900px) {
@@ -417,6 +499,7 @@ button { font-family: inherit; }
   color: var(--lime);
   display: inline-flex; align-items: center; gap: 8px;
   transition: gap .2s;
+  background: none; border: none; cursor: pointer;
 }
 .level-cta:hover { gap: 14px; }
 .level.is-locked .level-cta {
@@ -427,6 +510,118 @@ button { font-family: inherit; }
 .level.is-locked .level-cta:hover {
   color: var(--lime); border-color: var(--lime);
 }
+
+/* WAITLIST MODAL */
+.wl-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(2,10,20,.82);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.wl-overlay.open { display: flex; }
+.wl-modal {
+  width: 100%; max-width: 420px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  padding: 32px 28px 28px;
+  position: relative;
+}
+.wl-close {
+  position: absolute; top: 12px; right: 12px;
+  background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 22px; line-height: 1;
+  padding: 6px;
+}
+.wl-close:hover { color: #fff; }
+.wl-eyebrow {
+  font-family: var(--fm); font-size: 10px; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 10px;
+}
+.wl-title {
+  font-family: var(--fd); font-weight: 900; font-style: italic;
+  font-size: 30px; line-height: 1.05; text-transform: uppercase;
+  color: #fff; margin-bottom: 8px;
+}
+.wl-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+.wl-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  color: var(--ink);
+  font-family: var(--fb); font-size: 15px;
+  padding: 13px 14px;
+  margin-bottom: 12px;
+  outline: none;
+}
+.wl-input:focus { border-color: var(--lime); }
+.wl-submit {
+  width: 100%;
+  font-family: var(--fd); font-weight: 900; font-size: 14px;
+  letter-spacing: .12em; text-transform: uppercase;
+  background: var(--lime); color: #061000;
+  border: none; cursor: pointer;
+  padding: 13px;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  transition: background .18s;
+}
+.wl-submit:hover { background: #d8ff55; }
+.wl-submit:disabled { opacity: .55; cursor: wait; }
+.wl-msg { font-size: 13px; margin-top: 12px; min-height: 18px; }
+.wl-msg.ok { color: var(--lime); }
+.wl-msg.err { color: #ff6b7a; }
+
+/* TRUST STRIP (parents) */
+.trust-wrap { border-top: 1px solid var(--border); background: var(--bg2); }
+.trust {
+  max-width: 1280px; margin: 0 auto;
+  padding: 40px 28px;
+  display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: center;
+}
+.trust-tag {
+  font-family: var(--fd); font-weight: 900; font-style: italic;
+  font-size: 20px; text-transform: uppercase; letter-spacing: .04em;
+  color: #fff; white-space: nowrap;
+}
+.trust-items { display: flex; flex-wrap: wrap; gap: 10px 28px; }
+.trust-item {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--fm); font-size: 11px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted);
+}
+.trust-item svg { flex: none; }
+.trust-item a { color: var(--muted); border-bottom: 1px solid var(--border2); transition: color .18s; }
+.trust-item a:hover { color: var(--lime); }
+@media (max-width: 760px) {
+  .trust { grid-template-columns: 1fr; gap: 16px; padding: 32px 20px; }
+}
+
+/* TESTIMONIAL */
+.quote-wrap { border-top: 1px solid var(--border); }
+.quote {
+  max-width: 900px; margin: 0 auto;
+  padding: 72px 28px;
+  text-align: center;
+}
+.quote-mark {
+  font-family: var(--fs); font-style: italic;
+  font-size: 64px; line-height: .5; color: var(--lime);
+  display: block; margin-bottom: 18px;
+}
+.quote-text {
+  font-family: var(--fs); font-style: italic; font-weight: 300;
+  font-size: clamp(20px, 3.4vw, 30px); line-height: 1.45;
+  color: var(--ink);
+  margin-bottom: 22px;
+}
+.quote-attr {
+  font-family: var(--fm); font-size: 11px; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted);
+}
+.quote-attr strong { color: var(--lime); font-weight: 700; }
 
 /* PATHS */
 .paths-wrap { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
@@ -642,34 +837,15 @@ button { font-family: inherit; }
 }
 
 /* BOTTOM NAV (mobile) */
-.bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-  background: linear-gradient(to top, rgba(2,10,20,1) 72%, rgba(2,10,20,.9));
-  backdrop-filter: blur(12px);
-  padding: 10px 0 20px;
-  display: flex; justify-content: space-around;
-  border-top: 1px solid var(--border);
-}
-.bnav {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  color: var(--muted2);
-  font-family: var(--fd); font-weight: 700; font-size: 10px;
-  letter-spacing: .14em; text-transform: uppercase;
-  padding: 4px 14px;
-  border-top: 2px solid transparent;
-  transition: color .18s;
-}
-.bnav.is-active { color: var(--lime); border-top-color: var(--lime); }
-@media (min-width: 760px) { .bottom-nav { display: none; } .footer { padding-bottom: 48px; } }
 
 /* REVEAL */
-.reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .reveal.on { opacity: 1; transform: translateY(0); }
-.reveal.d1 { transition-delay: .08s; }
-.reveal.d2 { transition-delay: .16s; }
-.reveal.d3 { transition-delay: .24s; }
-.fade-up { animation: fade-up .7s ease both; }
-@keyframes fade-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+.reveal.d1 { transition-delay: .07s; }
+.reveal.d2 { transition-delay: .14s; }
+.reveal.d3 { transition-delay: .21s; }
+.fade-up { animation: fade-up .8s var(--ease) both; }
+@keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 900px) {
   .nav { padding: 0 16px; gap: 12px; grid-template-columns: auto 1fr; }
@@ -681,6 +857,9 @@ button { font-family: inherit; }
 </style>
 </head>
 <body>
+
+<!-- DRIVE BAR — scroll progress -->
+<div class="drive-bar" aria-hidden="true"><div class="drive-bar-fill" id="driveFill"></div></div>
 
 <!-- NAV -->
 <nav class="nav">
@@ -853,8 +1032,8 @@ button { font-family: inherit; }
       <h3 class="level-title">Starter</h3>
       <p class="level-desc">Defensive scheme recognition, gap analysis, coverages, and situational decision-making.</p>
       <div class="level-footer">
-        <span class="level-count">Launch · 2026</span>
-        <a href="auth.html" class="level-cta">Notify Me</a>
+        <span class="level-count">Unlocks after Rookie</span>
+        <button class="level-cta notify-btn" data-level="Starter">Notify Me</button>
       </div>
     </article>
 
@@ -864,8 +1043,8 @@ button { font-family: inherit; }
       <h3 class="level-title">Elite</h3>
       <p class="level-desc">Advanced game management, complex RPO logic, and pro-grade film study concepts.</p>
       <div class="level-footer">
-        <span class="level-count">Launch · 2027</span>
-        <a href="auth.html" class="level-cta">Notify Me</a>
+        <span class="level-count">Unlocks after Starter</span>
+        <button class="level-cta notify-btn" data-level="Elite">Notify Me</button>
       </div>
     </article>
   </div>
@@ -1005,6 +1184,16 @@ button { font-family: inherit; }
 </div>
 </div>
 
+<!-- TESTIMONIAL — TODO: replace with a REAL coach quote before publishing.
+     Until you have one, you can delete this block or keep it hidden by adding style="display:none" to .quote-wrap -->
+<div class="quote-wrap">
+  <div class="quote reveal">
+    <span class="quote-mark">“</span>
+    <p class="quote-text">My whole roster took the IQ quiz in one week. For the first time I could see exactly which players didn't know their assignments — before it showed up on film.</p>
+    <div class="quote-attr"><strong>Coach Name</strong> · Youth Program · San Antonio, TX</div>
+  </div>
+</div>
+
 <!-- WHY IQ -->
 <div class="why-wrap">
 <section class="section">
@@ -1077,13 +1266,37 @@ button { font-family: inherit; }
   </div>
 </div>
 
+<!-- PARENT TRUST STRIP -->
+<div class="trust-wrap">
+  <div class="trust reveal">
+    <div class="trust-tag">For Parents</div>
+    <div class="trust-items">
+      <span class="trust-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z" stroke="#C1FF22" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        COPPA-Compliant Privacy
+      </span>
+      <span class="trust-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#C1FF22" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        100% Free · No Card Required
+      </span>
+      <span class="trust-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#C1FF22" stroke-width="1.6"/><path d="M6 6l12 12" stroke="#C1FF22" stroke-width="1.6" stroke-linecap="round"/></svg>
+        No Ads · No Data Selling
+      </span>
+      <span class="trust-item">
+        <a href="legal.html">Read Our Privacy Policy →</a>
+      </span>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">First Down Academy</div>
     <div class="footer-links">
       <a href="program.html">Curriculum</a>
-      <a href="giq.html">Gridiron IQ</a>
+      <a href="giq-exam.html">Gridiron IQ</a>
       <a href="coaches.html">Coaches</a>
       <a href="legal.html">Privacy</a>
       <a href="legal.html">Terms</a>
@@ -1092,40 +1305,134 @@ button { font-family: inherit; }
   </div>
 </footer>
 
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav">
-  <a href="index.html" class="bnav is-active">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 9.5L12 4l9 5.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" stroke="currentColor" stroke-width="1.5"/></svg>
-    Home
-  </a>
-  <a href="giq-exam.html" class="bnav">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-    IQ Lab
-  </a>
-  <a href="coaches.html" class="bnav">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-    Coaches
-  </a>
-  <a href="auth.html" class="bnav">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-    Login
-  </a>
-</nav>
 
+<!-- WAITLIST MODAL -->
+<div class="wl-overlay" id="wlOverlay" role="dialog" aria-modal="true" aria-labelledby="wlTitle">
+  <div class="wl-modal">
+    <button class="wl-close" id="wlClose" aria-label="Close">×</button>
+    <div class="wl-eyebrow" id="wlLevel">Starter · Level 02</div>
+    <h3 class="wl-title" id="wlTitle">Get notified at kickoff.</h3>
+    <p class="wl-sub">Drop your email and you'll be the first to know when this level opens.</p>
+    <input type="email" class="wl-input" id="wlEmail" placeholder="your@email.com" autocomplete="email" inputmode="email">
+    <button class="wl-submit" id="wlSubmit">Put Me on the List</button>
+    <div class="wl-msg" id="wlMsg"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="curriculum.js?v=4"></script>
+<script src="app.js?v=4"></script>
 <script>
 var obs = new IntersectionObserver(function(entries){
   entries.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('on'); });
 }, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
 
+/* Drive bar — scroll progress */
+(function(){
+  var fill = document.getElementById('driveFill');
+  var ticking = false;
+  function update(){
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    fill.style.transform = 'scaleX(' + p + ')';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
+  update();
+})();
+
 function showPage(n){
-  var m={'home':'index.html','course':'program.html','giq':'giq.html','coaches':'coaches.html','signup':'auth.html','dashboard':'dashboard.html'};
+  var m={'home':'index.html','course':'program.html','giq':'giq-exam.html','coaches':'coaches.html','signup':'auth.html','dashboard':'dashboard.html'};
   if(m[n]) window.location.href=m[n];
 }
 function buildModuleList(){}
 function loadDashboard(){}
 function buildDashModuleList(){}
 function loadGIQScore(){}
+
+/* ===== WAITLIST CAPTURE =====
+   1. Fill in your Supabase project URL + anon key below (same values as auth.html).
+   2. Run this SQL once in the Supabase SQL editor:
+
+   create table if not exists waitlist (
+     id uuid primary key default gen_random_uuid(),
+     email text not null,
+     level text not null,
+     source text default 'homepage',
+     created_at timestamptz default now()
+   );
+   create unique index if not exists waitlist_email_level on waitlist (lower(email), level);
+   alter table waitlist enable row level security;
+   create policy "anon can insert waitlist" on waitlist
+     for insert to anon with check (true);
+   -- no select policy for anon: visitors can write, only you can read.
+*/
+var SUPABASE_URL = 'YOUR_SUPABASE_URL';        // e.g. https://abcdefgh.supabase.co
+var SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+(function(){
+  var overlay = document.getElementById('wlOverlay');
+  var levelEl = document.getElementById('wlLevel');
+  var emailEl = document.getElementById('wlEmail');
+  var submitEl = document.getElementById('wlSubmit');
+  var msgEl = document.getElementById('wlMsg');
+  var currentLevel = '';
+
+  document.querySelectorAll('.notify-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      currentLevel = btn.getAttribute('data-level');
+      levelEl.textContent = currentLevel + (currentLevel === 'Starter' ? ' · Level 02' : ' · Level 03');
+      msgEl.textContent = ''; msgEl.className = 'wl-msg';
+      overlay.classList.add('open');
+      setTimeout(function(){ emailEl.focus(); }, 50);
+    });
+  });
+
+  function close(){ overlay.classList.remove('open'); }
+  document.getElementById('wlClose').addEventListener('click', close);
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) close(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+
+  emailEl.addEventListener('keydown', function(e){ if (e.key === 'Enter') submitEl.click(); });
+
+  submitEl.addEventListener('click', function(){
+    var email = emailEl.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      msgEl.textContent = 'Enter a valid email address.';
+      msgEl.className = 'wl-msg err';
+      return;
+    }
+    submitEl.disabled = true;
+    msgEl.textContent = ''; msgEl.className = 'wl-msg';
+
+    fetch(SUPABASE_URL + '/rest/v1/waitlist', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Prefer': 'resolution=ignore-duplicates'
+      },
+      body: JSON.stringify({ email: email.toLowerCase(), level: currentLevel, source: 'homepage' })
+    })
+    .then(function(res){
+      if (!res.ok && res.status !== 409) throw new Error('HTTP ' + res.status);
+      msgEl.textContent = "You're on the list. We'll holler at kickoff.";
+      msgEl.className = 'wl-msg ok';
+      emailEl.value = '';
+      setTimeout(close, 1800);
+    })
+    .catch(function(){
+      msgEl.textContent = 'Something went wrong — try again in a minute.';
+      msgEl.className = 'wl-msg err';
+    })
+    .finally(function(){ submitEl.disabled = false; });
+  });
+})();
 </script>
 </body>
 </html>
