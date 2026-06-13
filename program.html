@@ -10,54 +10,84 @@
 <meta name="description" content="8 modules, 28 lessons, 84 slides. Built around 5 pillars of football knowledge.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Barlow:wght@300;400;500&family=JetBrains+Mono:wght@500;700&family=Fraunces:ital,opsz,wght@1,9..144,300&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:#020f1e;color:#d9e7fc;font-family:'Barlow',sans-serif;overflow-x:hidden;line-height:1.6;}
+:root{
+  --bg:#020f1e; --bg2:#081b2c; --bg3:#0d2134;
+  --ink:#d9e7fc; --muted:#8fa1bb; --muted2:#5a6b84;
+  --border:#20344b; --border2:#2c4666;
+  --lime:#C1FF22;
+  --fd:'Barlow Condensed',sans-serif; --fb:'Barlow',sans-serif;
+  --fm:'JetBrains Mono',ui-monospace,monospace; --fs:'Fraunces',Georgia,serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --ease-io:cubic-bezier(.65,0,.35,1);
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--fb);overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased;}
+body::after{content:'';position:fixed;inset:0;z-index:900;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");opacity:.04;mix-blend-mode:overlay;}
 a{text-decoration:none;}
 img{display:block;max-width:100%;}
+::selection{background:var(--lime);color:#061000;}
+::-webkit-scrollbar{width:11px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border:3px solid var(--bg);border-radius:6px;}
+::-webkit-scrollbar-thumb:hover{background:var(--muted2);}
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px;}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+  .rv,.rv2{opacity:1!important;transform:none!important;}
+}
+.drive-bar{position:fixed;top:0;left:0;right:0;z-index:300;height:3px;pointer-events:none;}
+.drive-bar-fill{height:100%;width:100%;background:linear-gradient(90deg,rgba(193,255,34,.5),var(--lime));transform-origin:left;transform:scaleX(0);box-shadow:0 0 12px rgba(193,255,34,.5);}
 /* NAV */
-.pg-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(2,10,20,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);height:64px;display:flex;align-items:center;padding:0 24px;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06);}
-.pg-nav-brand{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#C1FF22;font-style:italic;}
-.pg-nav-links{display:flex;align-items:center;gap:28px;}
-.pg-nav-link{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);transition:color .18s;}
-.pg-nav-link:hover,.pg-nav-link.active{color:#fff;}
+.pg-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(2,10,20,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);height:68px;display:flex;align-items:center;padding:0 28px;justify-content:space-between;border-bottom:1px solid var(--border);}
+.pg-nav-brand{display:flex;align-items:center;gap:10px;line-height:1;}
+.pg-nav-mark{width:34px;height:34px;background:var(--lime);display:grid;place-items:center;font-family:var(--fd);font-weight:900;font-size:16px;color:#061000;transform:skewX(-8deg);letter-spacing:-.02em;}
+.pg-nav-mark span{transform:skewX(8deg);}
+.pg-nav-name{font-family:var(--fd);font-weight:900;font-style:italic;font-size:17px;letter-spacing:.06em;text-transform:uppercase;color:#fff;}
+.pg-nav-links{display:flex;align-items:center;gap:6px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;}
+.pg-nav-link{color:var(--muted);padding:10px 16px;position:relative;transition:color .18s;}
+.pg-nav-link:hover{color:#fff;}
+.pg-nav-link.active{color:#fff;}
+.pg-nav-link.active::after{content:'';position:absolute;left:16px;right:16px;bottom:2px;height:2px;background:var(--lime);}
 .pg-nav-right{display:flex;align-items:center;gap:10px;}
-.pg-nav-signin{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);transition:color .18s;}
+.pg-nav-signin{font-family:var(--fd);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);transition:color .18s;}
 .pg-nav-signin:hover{color:#fff;}
-.pg-nav-cta{background:#C1FF22;color:#0d1a00;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;padding:8px 18px;border-radius:2px;transition:background .18s;}
-.pg-nav-cta:hover{background:#a8e01e;}
-.pg-nav-dash{display:none;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:7px 14px;border-radius:2px;}
+.pg-nav-cta{background:var(--lime);color:#061000;font-family:var(--fd);font-size:13px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;padding:11px 20px;display:inline-flex;align-items:center;gap:8px;transition:background .18s,transform .18s;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);}
+.pg-nav-cta:hover{background:#d8ff55;transform:translateY(-1px);}
+.pg-nav-dash{display:none;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff;font-family:var(--fd);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:7px 14px;}
 /* HERO */
 .pg-hero{min-height:70vh;background:#020f1e;display:flex;flex-direction:column;justify-content:flex-end;padding-top:64px;position:relative;overflow:hidden;}
 .pg-hero-grid{position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.02) 0,rgba(255,255,255,.02) 1px,transparent 1px,transparent 80px),repeating-linear-gradient(0deg,rgba(255,255,255,.015) 0,rgba(255,255,255,.015) 1px,transparent 1px,transparent 80px);pointer-events:none;}
 .pg-hero-glow{position:absolute;top:20%;right:-5%;width:500px;height:400px;background:radial-gradient(ellipse,rgba(193,255,34,.05),transparent 70%);pointer-events:none;}
 .pg-hero-inner{position:relative;z-index:3;padding:72px 28px 56px;max-width:840px;}
-.pg-hero-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(193,255,34,.1);border:1px solid rgba(193,255,34,.2);padding:6px 14px;border-radius:2px;margin-bottom:24px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#C1FF22;}
+.pg-hero-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(193,255,34,.08);border:1px solid rgba(193,255,34,.25);padding:6px 12px;margin-bottom:24px;font-family:var(--fm);font-size:10.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);}
 .pg-hero-dot{width:7px;height:7px;border-radius:50%;background:#C1FF22;box-shadow:0 0 8px #C1FF22;animation:dot-p 2s ease-in-out infinite;}
 @keyframes dot-p{0%,100%{opacity:1}50%{opacity:.4}}
-.pg-hero-h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(52px,9vw,88px);font-weight:900;line-height:.86;letter-spacing:-.01em;text-transform:uppercase;color:#fff;margin-bottom:18px;}
-.pg-hero-h1 .lime{color:#C1FF22;}
+.pg-hero-h1{font-family:var(--fd);font-size:clamp(52px,9vw,100px);font-weight:900;line-height:.86;letter-spacing:-.025em;text-transform:uppercase;color:#fff;margin-bottom:18px;}
+.pg-hero-h1 .lime{font-family:var(--fs);font-style:italic;font-weight:300;letter-spacing:-.02em;text-transform:none;color:var(--lime);}
 .pg-hero-sub{font-size:16px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.75;max-width:560px;}
 /* Stats */
 .pg-stats{position:relative;z-index:3;border-top:1px solid rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(4,1fr);background:rgba(255,255,255,.02);}
 .pg-stat{padding:22px 28px;border-right:1px solid rgba(255,255,255,.06);}
 .pg-stat:last-child{border-right:none;}
 .pg-stat-num{font-family:'Barlow Condensed',sans-serif;font-size:34px;font-weight:900;color:#C1FF22;line-height:1;margin-bottom:4px;}
-.pg-stat-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);}
+.pg-stat-label{font-family:var(--fm);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);}
 /* Marquee */
 .pg-marquee{background:#0d2134;border-top:1px solid rgba(193,255,34,.15);border-bottom:1px solid rgba(193,255,34,.15);height:44px;overflow:hidden;display:flex;align-items:center;}
-.pg-marquee-track{display:inline-flex;white-space:nowrap;animation:pg-s 28s linear infinite;}
+.pg-marquee-track{display:inline-flex;white-space:nowrap;animation:pg-s 36s linear infinite;}
+.pg-marquee:hover .pg-marquee-track{animation-play-state:paused;}
 @keyframes pg-s{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .pg-marquee-item{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#C1FF22;padding:0 28px;display:inline-flex;align-items:center;gap:24px;}
 .pg-marquee-item::after{content:"\25C6";font-size:6px;opacity:.5;}
 /* Sections */
 .pg-section{padding:64px 28px;}
 .pg-section-inner{max-width:960px;margin:0 auto;position:relative;z-index:1;}
-.pg-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px;}
-.pg-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(32px,5vw,52px);font-weight:900;letter-spacing:-.01em;text-transform:uppercase;line-height:.9;color:#fff;margin-bottom:8px;}
-.pg-title .lime{color:#C1FF22;}
+.pg-label{font-family:var(--fm);font-weight:500;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.pg-label::before{content:'';width:22px;height:1.5px;background:var(--lime);}
+.pg-title{font-family:var(--fd);font-size:clamp(32px,5vw,56px);font-weight:900;letter-spacing:-.02em;text-transform:uppercase;line-height:.9;color:#fff;margin-bottom:8px;}
+.pg-title .lime{font-family:var(--fs);font-style:italic;font-weight:300;color:var(--lime);letter-spacing:-.01em;text-transform:none;}
 .pg-title .dim{color:rgba(255,255,255,.2);}
 /* Level cards */
 .pg-levels{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:40px;}
@@ -82,26 +112,48 @@ img{display:block;max-width:100%;}
 .pg-level-iq-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.2);}
 .pg-level-iq-range{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(193,255,34,.5);}
 .pg-level.dim .pg-level-iq-range{color:rgba(255,255,255,.15);}
-/* Module list */
+/* Module list — rendered from curriculum.js */
 .pg-modules{display:flex;flex-direction:column;gap:2px;margin-top:40px;}
-.pg-module{background:#081b2c;padding:0;border-left:2px solid rgba(193,255,34,.08);transition:border-color .2s;display:grid;grid-template-columns:56px 1fr auto;align-items:start;}
-.pg-module:hover{border-left-color:#C1FF22;}
-.pg-module-num{padding:24px 0 24px 20px;font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:rgba(193,255,34,.2);line-height:1;}
+.pg-module{background:var(--bg2);padding:0;border-left:2px solid rgba(193,255,34,.08);transition:border-color .25s var(--ease-io),background .25s var(--ease-io);display:grid;grid-template-columns:56px 1fr auto;align-items:start;cursor:pointer;position:relative;}
+.pg-module:hover{border-left-color:var(--lime);background:#0a2032;}
+.pg-module-num{padding:24px 0 24px 20px;font-family:var(--fd);font-size:28px;font-weight:900;color:rgba(193,255,34,.2);line-height:1;transition:color .25s;}
+.pg-module:hover .pg-module-num{color:rgba(193,255,34,.5);}
 .pg-module-body{padding:20px 20px 20px 0;}
-.pg-module-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#fff;margin-bottom:5px;line-height:1;}
-.pg-module-desc{font-size:13px;color:#9eacc0;line-height:1.6;margin-bottom:10px;}
+.pg-module-name{font-family:var(--fd);font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#fff;margin-bottom:5px;line-height:1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.pg-module-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:10px;}
 .pg-module-pills{display:flex;flex-wrap:wrap;gap:4px;}
-.pg-module-pill{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:2px;padding:3px 8px;color:rgba(255,255,255,.4);}
+.pg-module-pill{font-family:var(--fd);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:3px 8px 3px 7px;color:rgba(255,255,255,.45);display:inline-flex;align-items:center;gap:6px;}
+.pg-pill-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
 .pg-module-meta{padding:20px 20px 20px 0;text-align:right;flex-shrink:0;}
-.pg-module-count{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:3px;white-space:nowrap;}
-.pg-module-slides{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(193,255,34,.4);white-space:nowrap;}
+.pg-module-count{font-family:var(--fm);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:3px;white-space:nowrap;}
+.pg-module-slides{font-family:var(--fm);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(193,255,34,.45);white-space:nowrap;}
+/* Progress states (signed in) */
+.pg-mod-state{font-family:var(--fm);font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 7px;flex-shrink:0;}
+.pg-mod-state.done{background:rgba(193,255,34,.1);color:var(--lime);border:1px solid rgba(193,255,34,.3);}
+.pg-mod-state.next{background:rgba(232,99,10,.1);color:#e8630a;border:1px solid rgba(232,99,10,.3);animation:dot-p 1.8s ease-in-out infinite;}
+.pg-module.is-done{border-left-color:rgba(193,255,34,.45);}
+.pg-module.is-done .pg-module-num{color:var(--lime);}
+.pg-module.is-next{border-left-color:#e8630a;}
+.pg-module-arrow{position:absolute;right:18px;bottom:16px;opacity:0;transform:translateX(-4px);transition:opacity .25s var(--ease-io),transform .25s var(--ease-io);color:var(--lime);}
+.pg-module:hover .pg-module-arrow{opacity:1;transform:translateX(0);}
+/* Signed-in hero progress strip */
+.pg-progress-strip{display:none;margin-top:24px;max-width:560px;}
+.pg-progress-strip.show{display:block;}
+.pg-progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.pg-progress-label{font-family:var(--fm);font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.pg-progress-frac{font-family:var(--fm);font-size:13px;font-weight:700;color:var(--lime);}
+.pg-progress-track{height:6px;background:var(--bg3);overflow:hidden;}
+.pg-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--lime),rgba(193,255,34,.6));transition:width 1.2s var(--ease) .4s;box-shadow:0 0 10px rgba(193,255,34,.4);}
 /* Pillars */
 .pg-pillars{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-top:40px;}
-.pg-pillar{background:#081b2c;padding:24px 18px;border-top:2px solid rgba(193,255,34,.1);transition:border-color .2s;}
-.pg-pillar:hover{border-top-color:#C1FF22;}
-.pg-pillar-num{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(193,255,34,.4);margin-bottom:10px;}
-.pg-pillar-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#fff;margin-bottom:6px;line-height:1.1;}
-.pg-pillar-desc{font-size:12px;color:#9eacc0;line-height:1.6;}
+.pg-pillar{background:var(--bg2);padding:24px 18px;border-top:2px solid var(--pc,rgba(193,255,34,.1));transition:background .25s var(--ease-io);position:relative;overflow:hidden;}
+.pg-pillar::before{content:'';position:absolute;top:0;left:0;right:0;height:54px;background:linear-gradient(180deg,color-mix(in srgb,var(--pc) 9%,transparent),transparent);pointer-events:none;}
+.pg-pillar:hover{background:#0a2032;}
+.pg-pillar-num{font-family:var(--fm);font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--pc,rgba(193,255,34,.4));margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.pg-pillar-num::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--pc,var(--lime));box-shadow:0 0 8px var(--pc,var(--lime));}
+.pg-pillar-name{font-family:var(--fd);font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#fff;margin-bottom:6px;line-height:1.1;}
+.pg-pillar-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+.pg-pillar-count{font-family:var(--fm);font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-top:12px;}
 /* CTA */
 .pg-cta{background:#081b2c;margin:0 28px 56px;border-radius:2px;padding:48px 40px;position:relative;overflow:hidden;border-left:3px solid #C1FF22;}
 .pg-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(193,255,34,.04),transparent 60%);pointer-events:none;}
@@ -109,12 +161,15 @@ img{display:block;max-width:100%;}
 .pg-cta-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;text-transform:uppercase;line-height:.9;color:#fff;margin-bottom:14px;}
 .pg-cta-body{font-size:15px;color:#9eacc0;line-height:1.65;margin-bottom:28px;}
 .pg-cta-note{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:12px;}
-.btn-lime{background:#C1FF22;color:#0d1a00;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;padding:14px 32px;border:none;cursor:pointer;border-radius:2px;display:inline-flex;align-items:center;gap:8px;transition:all .18s;position:relative;overflow:hidden;}
-.btn-lime::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transform:translateX(-100%);transition:transform .4s;}
-.btn-lime:hover::after{transform:translateX(100%);}
-.btn-lime:hover{background:#d0ff55;transform:translateY(-2px);box-shadow:0 8px 28px rgba(193,255,34,.35);}
-.btn-ghost{background:transparent;color:#d9e7fc;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:13px 24px;border:1.5px solid rgba(255,255,255,.15);cursor:pointer;border-radius:2px;transition:border-color .18s;display:inline-flex;align-items:center;gap:8px;margin-left:10px;}
-.btn-ghost:hover{border-color:rgba(255,255,255,.4);}
+.btn-lime{background:var(--lime);color:#061000;font-family:var(--fd);font-size:14px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;padding:15px 30px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:background .25s var(--ease-io),transform .25s var(--ease-io),box-shadow .25s var(--ease-io);position:relative;overflow:hidden;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);box-shadow:0 8px 30px -10px rgba(193,255,34,.45);}
+.btn-lime::after{content:'';position:absolute;top:0;bottom:0;left:-80%;width:50%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);transition:left .55s var(--ease-io);}
+.btn-lime:hover::after{left:130%;}
+.btn-lime:hover{background:#d8ff55;transform:translateY(-2px);box-shadow:0 12px 36px -10px rgba(193,255,34,.6);}
+.btn-lime:active{transform:translateY(0);transition-duration:.08s;}
+.btn-ghost{background:transparent;color:#fff;font-family:var(--fd);font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:14px 24px;border:1px solid var(--border2);cursor:pointer;transition:border-color .25s var(--ease-io),background .25s var(--ease-io);position:relative;display:inline-flex;align-items:center;gap:8px;margin-left:10px;}
+.btn-ghost::after{content:'';position:absolute;left:0;right:100%;bottom:0;height:2px;background:var(--lime);transition:right .35s var(--ease-io);}
+.btn-ghost:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.04);}
+.btn-ghost:hover::after{right:0;}
 /* Footer */
 .pg-footer{background:#020f1e;border-top:1px solid rgba(255,255,255,.06);padding:28px 28px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
 .pg-footer-brand{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;font-style:italic;color:#C1FF22;}
@@ -123,9 +178,9 @@ img{display:block;max-width:100%;}
 .pg-footer-link:hover{color:#fff;}
 .pg-footer-copy{font-size:11px;color:rgba(255,255,255,.15);}
 /* Reveal */
-.rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
 .rv.on{opacity:1;transform:translateY(0);}
-.rv2{opacity:0;transform:translateY(24px);transition:opacity .6s .1s ease,transform .6s .1s ease;}
+.rv2{opacity:0;transform:translateY(14px);transition:opacity .7s .08s var(--ease),transform .7s .08s var(--ease);}
 .rv2.on{opacity:1;transform:translateY(0);}
 @media(max-width:700px){
   .pg-nav-links{display:none;}
@@ -173,8 +228,14 @@ img{display:block;max-width:100%;}
 </style>
 </head>
 <body>
+<!-- DRIVE BAR -->
+<div class="drive-bar" aria-hidden="true"><div class="drive-bar-fill" id="driveFill"></div></div>
+
 <nav class="pg-nav">
-  <a href="index.html" class="pg-nav-brand">First Down Academy</a>
+  <a href="index.html" class="pg-nav-brand">
+    <span class="pg-nav-mark"><span>FD</span></span>
+    <span class="pg-nav-name">First Down Academy</span>
+  </a>
   <div class="pg-nav-links">
     <a href="program.html" class="pg-nav-link active">The Program</a>
     <a href="giq-exam.html" class="pg-nav-link">Gridiron IQ</a>
@@ -208,14 +269,21 @@ img{display:block;max-width:100%;}
   <div class="tx-watermark" style="font-size:460px;bottom:-60px;right:-30px;opacity:.5;">5</div>
   <div class="pg-hero-inner">
     <div class="pg-hero-badge"><span class="pg-hero-dot"></span>Level 1 &middot; Foundations</div>
-    <h1 class="pg-hero-h1">The Program.<br><span class="lime">8 Modules.</span></h1>
-    <p class="pg-hero-sub">28 lessons. 84 slides. Built around 5 pillars of football knowledge &mdash; structured to give every player a complete understanding of the game before they set foot on the field.</p>
+    <h1 class="pg-hero-h1">The Program.<br><span class="lime">Know the game.</span></h1>
+    <p class="pg-hero-sub">Built around 5 pillars of football knowledge &mdash; structured to give every player a complete understanding of the game before they set foot on the field.</p>
+    <div class="pg-progress-strip" id="pgProgressStrip">
+      <div class="pg-progress-top">
+        <span class="pg-progress-label">Your Progress &middot; Level 1</span>
+        <span class="pg-progress-frac" id="pgProgressFrac">0 / 8</span>
+      </div>
+      <div class="pg-progress-track"><div class="pg-progress-fill" id="pgProgressFill"></div></div>
+    </div>
   </div>
   <div class="pg-stats">
-    <div class="pg-stat"><div class="pg-stat-num">8</div><div class="pg-stat-label">Modules</div></div>
-    <div class="pg-stat"><div class="pg-stat-num">28</div><div class="pg-stat-label">Lessons</div></div>
-    <div class="pg-stat"><div class="pg-stat-num">84</div><div class="pg-stat-label">Slides</div></div>
-    <div class="pg-stat"><div class="pg-stat-num">Free</div><div class="pg-stat-label">Always</div></div>
+    <div class="pg-stat"><div class="pg-stat-num" id="statModules">8</div><div class="pg-stat-label">Modules</div></div>
+    <div class="pg-stat"><div class="pg-stat-num" id="statLessons">28</div><div class="pg-stat-label">Lessons</div></div>
+    <div class="pg-stat"><div class="pg-stat-num" id="statSlides">84</div><div class="pg-stat-label">Slides</div></div>
+    <div class="pg-stat"><div class="pg-stat-num" id="statQuiz">42</div><div class="pg-stat-label">Quiz Questions</div></div>
   </div>
 </section>
 
@@ -334,32 +402,38 @@ img{display:block;max-width:100%;}
     <line x1="90" y1="120" x2="180" y2="40" stroke="#C1FF22" stroke-width="2"/>
   </svg>
   <div class="pg-section-inner">
-    <div class="rv"><div class="pg-label">What Gets Covered</div><div class="pg-title">5 Pillars. <span class="dim">One Score.</span></div></div>
+    <div class="rv"><div class="pg-label">What Gets Covered</div><div class="pg-title">5 Pillars. <span class="lime">One score.</span></div>
+    <p style="font-size:14px;color:var(--muted);max-width:56ch;margin-top:8px;">These five pillars are the axes of your Gridiron IQ radar chart &mdash; every lesson and quiz question maps to one. Train a pillar here, watch it grow on your <a href="giq-exam.html" style="color:var(--lime);border-bottom:1px solid rgba(193,255,34,.35);">IQ exam</a>.</p></div>
     <div class="pg-pillars">
-      <div class="pg-pillar rv">
+      <div class="pg-pillar rv" data-pillar="rules">
         <div class="pg-pillar-num">01</div>
         <div class="pg-pillar-name">Rules &amp; Objectives</div>
         <p class="pg-pillar-desc">Scoring, downs, penalties, turnovers, and how the game works from kickoff to final whistle.</p>
+        <div class="pg-pillar-count"></div>
       </div>
-      <div class="pg-pillar rv2">
+      <div class="pg-pillar rv2" data-pillar="positions">
         <div class="pg-pillar-num">02</div>
-        <div class="pg-pillar-name">Positions &amp; Roles</div>
+        <div class="pg-pillar-name">Positions &amp; Responsibilities</div>
         <p class="pg-pillar-desc">Every position on offense, defense, and special teams &mdash; what they do and why it matters.</p>
+        <div class="pg-pillar-count"></div>
       </div>
-      <div class="pg-pillar rv">
+      <div class="pg-pillar rv" data-pillar="formations">
         <div class="pg-pillar-num">03</div>
-        <div class="pg-pillar-name">Formations</div>
+        <div class="pg-pillar-name">Formations &amp; Alignments</div>
         <p class="pg-pillar-desc">How teams line up, why spacing matters, and what pre-snap alignment tells you.</p>
+        <div class="pg-pillar-count"></div>
       </div>
-      <div class="pg-pillar rv2">
+      <div class="pg-pillar rv2" data-pillar="plays">
         <div class="pg-pillar-num">04</div>
         <div class="pg-pillar-name">Plays &amp; Concepts</div>
         <p class="pg-pillar-desc">Routes, coverages, run schemes, blitzes, and how plays attack and defend.</p>
+        <div class="pg-pillar-count"></div>
       </div>
-      <div class="pg-pillar rv">
+      <div class="pg-pillar rv" data-pillar="situational">
         <div class="pg-pillar-num">05</div>
-        <div class="pg-pillar-name">Situational</div>
+        <div class="pg-pillar-name">Situational Awareness</div>
         <p class="pg-pillar-desc">3rd down, red zone, clock management, and thinking under game pressure.</p>
+        <div class="pg-pillar-count"></div>
       </div>
     </div>
   </div>
@@ -372,127 +446,9 @@ img{display:block;max-width:100%;}
     <div class="rv">
       <div class="pg-label">Level 1 &mdash; Foundations Curriculum</div>
       <div class="pg-title">8 Modules. <span class="lime">5 Pillars.</span></div>
-      <p style="font-size:15px;color:rgba(255,255,255,.4);margin-top:8px;margin-bottom:0;">Create an account to access the full curriculum, track your progress, and earn module completions.</p>
+      <p style="font-size:15px;color:var(--muted);margin-top:8px;margin-bottom:0;" id="pgModulesSub">Create an account to access the full curriculum, track your progress, and earn module completions.</p>
     </div>
-    <div class="pg-modules">
-
-      <div class="pg-module rv">
-        <div class="pg-module-num">1</div>
-        <div class="pg-module-body">
-          <div class="pg-module-name">The Field</div>
-          <div class="pg-module-desc">Field layout, yard lines, hash marks, end zones, and boundaries.</div>
-          <div class="pg-module-pills">
-            <span class="pg-module-pill">The Football Field</span>
-            <span class="pg-module-pill">Yard Lines &amp; Hash Marks</span>
-            <span class="pg-module-pill">End Zones &amp; Boundaries</span>
-          </div>
-        </div>
-        <div class="pg-module-meta"><div class="pg-module-count">3 lessons</div><div class="pg-module-slides">9 slides</div></div>
-      </div>
-
-      <div class="pg-module rv">
-        <div class="pg-module-num">2</div>
-        <div class="pg-module-body">
-          <div class="pg-module-name">How the Game Works</div>
-          <div class="pg-module-desc">Downs, first downs, possession, scoring, and turnovers.</div>
-          <div class="pg-module-pills">
-            <span class="pg-module-pill">Downs and Distance</span>
-            <span class="pg-module-pill">Earning a First Down</span>
-            <span class="pg-module-pill">Scoring</span>
-            <span class="pg-module-pill">Possession and Turnovers</span>
-          </div>
-        </div>
-        <div class="pg-module-meta"><div class="pg-module-count">4 lessons</div><div class="pg-module-slides">12 slides</div></div>
-      </div>
-
-      <div class="pg-module rv">
-        <div class="pg-module-num">3</div>
-        <div class="pg-module-body">
-          <div class="pg-module-name">Penalties and Kicking</div>
-          <div class="pg-module-desc">Basic penalties, kickoffs, punts, and the kicking game.</div>
-          <div class="pg-module-pills">
-            <span class="pg-module-pill">Common Penalties</span>
-            <span class="pg-module-pill">Kickoffs and Touchbacks</span>
-            <span class="pg-module-pill">Punting and Field Position</span>
-          </div>
-        </div>
-        <div class="pg-module-meta"><div class="pg-module-count">3 lessons</div><div class="pg-module-slides">9 slides</div></div>
-      </div>
-
-      <div class="pg-module rv">
-        <div class="pg-module-num">4</div>
-        <div class="pg-module-body">
-          <div class="pg-module-name">Offensive Players</div>
-          <div class="pg-module-desc">Every offensive position &mdash; their identity and role on each play.</div>
-          <div class="pg-module-pills">
-            <span class="pg-module-pill">The Quarterback</span>
-            <span class="pg-module-pill">Running Backs &amp; O-Line</span>
-            <span class="pg-module-pill">Wide Receivers &amp; Tight Ends</span>
-          </div>
-        </div>
-        <div class="pg-module-meta"><div class="pg-module-count">3 lessons</div><div class="pg-module-slides">9 slides</div></div>
-      </div>
-
-      <div class="pg-module rv">
-        <div class="pg-module-num">5</div>
-        <div class="pg-module-body">
-          <div class="pg-module-name">Defensive Players &amp; Special Teams</div>
-          <div class="pg-module-desc">Every defensive position and the players who cover kicks.</div>
-          <div class="pg-module-pills">
-            <span class="pg-module-pill">D-Line &amp; Linebackers</span>
-            <span class="pg-module-pill">Cornerbacks &amp; Safeties</span>
-            <span class="pg-module-pill">Kicker, Punter &amp; Returner</span>
-          </div>
-        </div>
-        <div class="pg-module-meta"><div class="pg-module-count">3 lessons</div><div class="pg-module-slides">9 slides</div></div>
-      </div>
-
-      <div class="pg-module rv">
-        <div class="pg-module-num">6</div>
-        <div class="pg-module-body">
-          <div class="pg-module-name">Offensive Concepts</div>
-          <div class="pg-module-desc">Run vs pass, handoffs, blocking, formations, and routes.</div>
-          <div class="pg-module-pills">
-            <span class="pg-module-pill">Run Plays</span>
-            <span class="pg-module-pill">Blocking</span>
-            <span class="pg-module-pill">Offensive Formations</span>
-            <span class="pg-module-pill">Pass Routes</span>
-          </div>
-        </div>
-        <div class="pg-module-meta"><div class="pg-module-count">4 lessons</div><div class="pg-module-slides">12 slides</div></div>
-      </div>
-
-      <div class="pg-module rv">
-        <div class="pg-module-num">7</div>
-        <div class="pg-module-body">
-          <div class="pg-module-name">Defensive Concepts</div>
-          <div class="pg-module-desc">Tackling, stopping the run, covering receivers, and creating turnovers.</div>
-          <div class="pg-module-pills">
-            <span class="pg-module-pill">Tackling Fundamentals</span>
-            <span class="pg-module-pill">Stopping the Run</span>
-            <span class="pg-module-pill">Coverage Concepts</span>
-            <span class="pg-module-pill">Creating Turnovers</span>
-          </div>
-        </div>
-        <div class="pg-module-meta"><div class="pg-module-count">4 lessons</div><div class="pg-module-slides">12 slides</div></div>
-      </div>
-
-      <div class="pg-module rv">
-        <div class="pg-module-num">8</div>
-        <div class="pg-module-body">
-          <div class="pg-module-name">Situational Strategy</div>
-          <div class="pg-module-desc">3rd down, 4th down, red zone, field position, and game awareness.</div>
-          <div class="pg-module-pills">
-            <span class="pg-module-pill">Third Down</span>
-            <span class="pg-module-pill">Fourth Down Decisions</span>
-            <span class="pg-module-pill">Red Zone Decisions</span>
-            <span class="pg-module-pill">Field Position Awareness</span>
-          </div>
-        </div>
-        <div class="pg-module-meta"><div class="pg-module-count">4 lessons</div><div class="pg-module-slides">12 slides</div></div>
-      </div>
-
-    </div>
+    <div class="pg-modules" id="pgModules"></div>
   </div>
 </div>
 
@@ -527,11 +483,21 @@ img{display:block;max-width:100%;}
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="curriculum.js?v=4"></script>
-<script src="app.js?v=4"></script>
+<script src="curriculum.js?v=5"></script>
+<script src="app.js?v=5"></script>
 <script>
 var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add("on");});},{threshold:.08,rootMargin:"0px 0px -20px 0px"});
-document.querySelectorAll(".rv,.rv2").forEach(function(el){obs.observe(el);});
+function observeAll(){document.querySelectorAll(".rv,.rv2").forEach(function(el){obs.observe(el);});}
+observeAll();
+
+/* Drive bar */
+(function(){
+  var fill=document.getElementById("driveFill");var t=false;
+  function u(){var d=document.documentElement;var m=d.scrollHeight-window.innerHeight;
+    fill.style.transform="scaleX("+(m>0?Math.min(1,Math.max(0,window.scrollY/m)):0)+")";t=false;}
+  window.addEventListener("scroll",function(){if(!t){requestAnimationFrame(u);t=true;}},{passive:true});u();
+})();
+
 function showPage(n){var m={"home":"index.html","signup":"auth.html","dashboard":"dashboard.html"};if(m[n])window.location.href=m[n];}
 function buildModuleList(){}
 function loadDashboard(){}
@@ -542,6 +508,110 @@ function updateNavForLoggedIn(){
   var db=document.getElementById("navDashBtn");if(db)db.style.display="inline-flex";
   var dl=document.getElementById("nav-dashboard");if(dl)dl.style.display="block";
 }
+function openModule(idx){
+  sessionStorage.setItem("openModule",idx);
+  window.location.href="lesson.html";
+}
+
+/* ══════════════════════════════════════════
+   RENDER FROM curriculum.js — single source
+   of truth. No more hardcoded module HTML.
+══════════════════════════════════════════ */
+var _loggedIn=false;
+var _doneModules={};
+
+function esc(t){var d=document.createElement("div");d.textContent=t;return d.innerHTML;}
+
+function renderStats(){
+  var lessons=0,slides=0,quiz=0;
+  CURRICULUM.forEach(function(m){
+    lessons+=m.lessons.length;
+    m.lessons.forEach(function(l){slides+=l.slides.length;});
+    quiz+=(m.quiz||[]).length;
+  });
+  document.getElementById("statModules").textContent=CURRICULUM.length;
+  document.getElementById("statLessons").textContent=lessons;
+  document.getElementById("statSlides").textContent=slides;
+  document.getElementById("statQuiz").textContent=quiz;
+}
+
+function renderPillars(){
+  var counts=(typeof lessonCountByPillar==="function")?lessonCountByPillar():{};
+  document.querySelectorAll(".pg-pillar[data-pillar]").forEach(function(el){
+    var key=el.getAttribute("data-pillar");
+    var p=PILLARS[key];
+    if(p) el.style.setProperty("--pc",p.color);
+    var c=el.querySelector(".pg-pillar-count");
+    if(c&&counts[key]!=null) c.textContent=counts[key]+" lessons \u00b7 in your IQ radar";
+  });
+}
+
+function renderModules(){
+  var wrap=document.getElementById("pgModules");
+  if(!wrap||typeof CURRICULUM==="undefined")return;
+  var nextFound=false;
+  wrap.innerHTML=CURRICULUM.map(function(m,idx){
+    var slides=0;m.lessons.forEach(function(l){slides+=l.slides.length;});
+    var done=_loggedIn&&_doneModules[m.num];
+    var isNext=_loggedIn&&!done&&!nextFound;
+    if(isNext)nextFound=true;
+    var stateTag="";
+    if(done)stateTag='<span class="pg-mod-state done">\u2713 Complete</span>';
+    else if(isNext)stateTag='<span class="pg-mod-state next">Up Next</span>';
+    var pills=m.lessons.map(function(l){
+      var col=(PILLARS[l.pillar]||{}).color||"#C1FF22";
+      return '<span class="pg-module-pill"><span class="pg-pill-dot" style="background:'+col+'"></span>'+esc(l.title)+"</span>";
+    }).join("");
+    return '<div class="pg-module rv'+(done?" is-done":"")+(isNext?" is-next":"")+'" data-idx="'+idx+'" role="link" tabindex="0" aria-label="Module '+m.num+": "+esc(m.name)+'">'
+      +'<div class="pg-module-num">'+m.num+"</div>"
+      +'<div class="pg-module-body">'
+        +'<div class="pg-module-name">'+esc(m.name)+stateTag+"</div>"
+        +'<div class="pg-module-desc">'+esc(m.desc)+"</div>"
+        +'<div class="pg-module-pills">'+pills+"</div>"
+      +"</div>"
+      +'<div class="pg-module-meta"><div class="pg-module-count">'+m.lessons.length+' lessons</div><div class="pg-module-slides">'+slides+' slides</div></div>' 
+      +'<svg class="pg-module-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      +"</div>";
+  }).join("");
+
+  wrap.querySelectorAll(".pg-module").forEach(function(el){
+    function go(){
+      var idx=parseInt(el.getAttribute("data-idx"));
+      if(_loggedIn)openModule(idx);
+      else window.location.href="auth.html";
+    }
+    el.addEventListener("click",go);
+    el.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();go();}});
+  });
+  observeAll();
+}
+
+async function enhanceWithProgress(){
+  if(typeof currentUser==="undefined"||!currentUser){renderModules();return;}
+  _loggedIn=true;
+  try{
+    var r=await db.from("progress").select("module_num,quiz_passed").eq("user_id",currentUser.id);
+    (r.data||[]).forEach(function(row){if(row.quiz_passed)_doneModules[row.module_num]=true;});
+  }catch(e){console.warn("progress load skipped",e);}
+  renderModules();
+  var done=Object.keys(_doneModules).length;
+  var total=CURRICULUM.length;
+  var strip=document.getElementById("pgProgressStrip");
+  if(strip){
+    strip.classList.add("show");
+    document.getElementById("pgProgressFrac").textContent=done+" / "+total;
+    setTimeout(function(){document.getElementById("pgProgressFill").style.width=Math.round(done/total*100)+"%";},150);
+  }
+  var sub=document.getElementById("pgModulesSub");
+  if(sub)sub.textContent=done===0
+    ?"Tap any module to start. Your progress saves automatically."
+    :"Pick up where you left off \u2014 tap any module to jump in.";
+}
+
+renderStats();
+renderPillars();
+renderModules();
+document.addEventListener("sessionReady",enhanceWithProgress);
 </script>
 </body>
 </html>
