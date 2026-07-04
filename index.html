@@ -16,6 +16,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900&family=Barlow:wght@400;500&family=JetBrains+Mono:wght@500;700&family=Fraunces:ital,opsz,wght@1,9..144,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="fda-photo.css">
+<link rel="prefetch" href="giq-exam.html">
+<link rel="prefetch" href="program.html">
+<link rel="prefetch" href="coaches.html">
+<link rel="prefetch" href="safety.html">
 <style>
 /* RESET + TOKENS */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -300,35 +304,7 @@ button { font-family: inherit; }
 @keyframes playbook-in { from { opacity: 0; transform: translateX(24px); } to { opacity: .9; transform: translateX(0); } }
 
 /* TICKER */
-.ticker {
-  background: var(--red);
-  height: 40px; overflow: hidden;
-  display: flex; align-items: center;
-  position: relative;
-}
-.ticker::before, .ticker::after {
-  content: ''; position: absolute; top: 0; bottom: 0; width: 50px; z-index: 2;
-  pointer-events: none;
-}
-.ticker::before { left: 0; background: linear-gradient(90deg, var(--red), transparent); }
-.ticker::after  { right: 0; background: linear-gradient(-90deg, var(--red), transparent); }
-.ticker-track {
-  display: inline-flex; white-space: nowrap;
-  animation: ticker-scroll 44s linear infinite;
-}
-.ticker:hover .ticker-track { animation-play-state: paused; }
-@keyframes ticker-scroll { to { transform: translateX(-50%); } }
-.ticker-item {
-  font-family: var(--fd); font-weight: 800; font-size: 12px;
-  letter-spacing: .2em; text-transform: uppercase;
-  color: #fff;
-  padding: 0 22px;
-  display: inline-flex; align-items: center;
-}
-.ticker-item::after {
-  content: '★'; font-size: 9px; color: rgba(255,255,255,.55);
-  margin-left: 22px;
-}
+
 
 /* STAT BAR */
 .statbar {
@@ -874,6 +850,76 @@ button { font-family: inherit; }
 @media (max-width: 900px) {
   .path.is-player .path-visual { min-height: 380px; }
 }
+
+/* PLAYER SAFETY BAND */
+.safety-wrap {
+  border-top: 1px solid var(--border);
+  background:
+    linear-gradient(90deg, rgba(193,255,34,.05), transparent 55%),
+    var(--bg2);
+}
+.safety {
+  max-width: 1280px; margin: 0 auto;
+  padding: 56px 28px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 40px;
+  align-items: center;
+}
+.safety-icon { display: grid; place-items: center; }
+.safety-title {
+  font-family: var(--fd); font-weight: 900;
+  font-size: clamp(32px, 4.2vw, 48px);
+  line-height: .92; letter-spacing: -.02em;
+  text-transform: uppercase; color: #fff;
+  margin-bottom: 12px;
+}
+.safety-title .serif {
+  font-family: var(--fs); font-style: italic; font-weight: 300;
+  color: var(--lime); text-transform: none;
+}
+.safety-desc {
+  font-size: 14px; line-height: 1.65;
+  color: var(--muted);
+  max-width: 56ch;
+}
+.safety-cta-col {
+  display: flex; flex-direction: column;
+  align-items: flex-start; gap: 12px;
+}
+.safety-note {
+  font-family: var(--fm); font-size: 10px;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted2);
+}
+@media (max-width: 900px) {
+  .safety { grid-template-columns: 1fr; gap: 20px; padding: 44px 20px; }
+  .safety-icon { justify-content: start; place-items: start; }
+}
+
+/* MOBILE POLISH */@media (max-width: 760px) {
+  .quote { padding: 52px 20px; }
+  .quote-mark { font-size: 48px; margin-bottom: 14px; }
+
+  .cta-wrap { padding: 56px 20px; }
+  .path-body { padding: 36px 20px; }
+}
+@media (max-width: 560px) {
+  .nav { height: 60px; }
+  .nav-brand-name { font-size: 14px; letter-spacing: .04em; }
+  .nav-brand-mark { width: 30px; height: 30px; font-size: 14px; }
+  .nav-cta { font-size: 12px; padding: 10px 14px; }
+
+  .hero-h1 { font-size: clamp(46px, 13.5vw, 84px); }
+  .hero-sub { font-size: 15px; }
+  .btn { padding: 14px 20px; font-size: 12.5px; }
+
+  .path-title { font-size: clamp(44px, 12vw, 64px); }
+  .section-title { font-size: clamp(34px, 10vw, 64px); }
+
+  .stat { padding: 16px 14px; }
+  .stat-num { font-size: 32px; }
+}
 </style>
 </head>
 <body>
@@ -892,6 +938,7 @@ button { font-family: inherit; }
     <a href="program.html" class="nav-link">Curriculum</a>
     <a href="giq-exam.html" class="nav-link">IQ Lab</a>
     <a href="coaches.html" class="nav-link">Coaches</a>
+    <a href="safety.html" class="nav-link">Safety</a>
   </div>
   <div class="nav-right">
     <a href="auth.html" class="nav-signin">Sign In</a>
@@ -972,26 +1019,7 @@ button { font-family: inherit; }
 </section>
 
 <!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-track">
-    <span class="ticker-item">Gridiron IQ Quiz</span>
-    <span class="ticker-item">Adaptive Testing</span>
-    <span class="ticker-item">5 Pillars of Knowledge</span>
-    <span class="ticker-item">Free Rookie Course</span>
-    <span class="ticker-item">Coach Dashboard</span>
-    <span class="ticker-item">Track Your Improvement</span>
-    <span class="ticker-item">Ages 8 to 18</span>
-    <span class="ticker-item">Instant Grade</span>
-    <span class="ticker-item">Gridiron IQ Quiz</span>
-    <span class="ticker-item">Adaptive Testing</span>
-    <span class="ticker-item">5 Pillars of Knowledge</span>
-    <span class="ticker-item">Free Rookie Course</span>
-    <span class="ticker-item">Coach Dashboard</span>
-    <span class="ticker-item">Track Your Improvement</span>
-    <span class="ticker-item">Ages 8 to 18</span>
-    <span class="ticker-item">Instant Grade</span>
-  </div>
-</div>
+
 
 <!-- STAT BAR -->
 <div class="statbar reveal">
@@ -1082,6 +1110,27 @@ button { font-family: inherit; }
   </div>
 </section>
 
+<!-- PLAYER SAFETY -->
+<div class="safety-wrap">
+  <section class="safety reveal">
+    <div class="safety-icon" aria-hidden="true">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 6 L54 14 V32 C54 46 44 54 32 58 C20 54 10 46 10 32 V14 Z" stroke="#C1FF22" stroke-width="2.5" fill="rgba(193,255,34,.06)"/>
+        <path d="M23 32 L29.5 38.5 L42 25" stroke="#C1FF22" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="safety-body">
+      <div class="section-eyebrow">Player Safety · Always Free</div>
+      <h2 class="safety-title">Safe players <span class="serif">finish seasons.</span></h2>
+      <p class="safety-desc">Hydration. Sportsmanship. Injury awareness. A free safety module for every athlete — how to take care of your body, respect the game, and know when to speak up. Built for players, useful for parents and coaches too.</p>
+    </div>
+    <div class="safety-cta-col">
+      <a class="btn btn-primary" href="safety.html">Start Free →</a>
+      <span class="safety-note">Free · 6 Lessons · ≈25 Min · Ages 8–18</span>
+    </div>
+  </section>
+</div>
+
 <!-- PATHS -->
 <div class="paths-wrap">
 <div class="paths-inner">
@@ -1170,72 +1219,9 @@ button { font-family: inherit; }
 </div>
 </div>
 
-<!-- TESTIMONIAL — TODO: replace with a REAL coach quote before publishing.
-     Until you have one, you can delete this block or keep it hidden by adding style="display:none" to .quote-wrap -->
-<div class="quote-wrap">
-  <div class="quote reveal">
-    <span class="quote-mark">“</span>
-    <p class="quote-text">My whole roster took the IQ quiz in one week. For the first time I could see exactly which players didn't know their assignments — before it showed up on film.</p>
-    <div class="quote-attr"><strong>Coach Name</strong> · Youth Program · San Antonio, TX</div>
-  </div>
-</div>
 
-<!-- WHY IQ -->
-<div class="why-wrap">
-<section class="section">
-  <div class="section-head reveal">
-    <div>
-      <div class="section-eyebrow">What's Inside</div>
-      <h2 class="section-title">Why IQ <span class="serif">matters.</span></h2>
-    </div>
-    <p class="section-lede">
-      Football is a thinking sport. Players who see it faster play faster.
-    </p>
-  </div>
 
-  <div class="offerings">
-    <div class="offering reveal">
-      <div class="offering-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#C1FF22" stroke-width="1.4"/><path d="M12 7v5l3 2" stroke="#C1FF22" stroke-width="1.4" stroke-linecap="round"/></svg>
-      </div>
-      <div>
-        <div class="offering-name"><span class="no">01</span>IQ Quiz</div>
-        <p class="offering-desc">15 adaptive questions. Difficulty adjusts in real time. Letter grade the instant you finish.</p>
-      </div>
-    </div>
 
-    <div class="offering reveal d1">
-      <div class="offering-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="14" rx="1" stroke="#C1FF22" stroke-width="1.4"/><path d="M7 9h6M7 13h4M7 16h8" stroke="#C1FF22" stroke-width="1.4" stroke-linecap="round"/></svg>
-      </div>
-      <div>
-        <div class="offering-name"><span class="no">02</span>Training</div>
-        <p class="offering-desc">8 modules. 84 slides. All 5 pillars of football knowledge. Self-paced and free.</p>
-      </div>
-    </div>
-
-    <div class="offering reveal d2">
-      <div class="offering-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 19L9 13L13 16L20 8" stroke="#C1FF22" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="8" r="1.5" fill="#C1FF22"/></svg>
-      </div>
-      <div>
-        <div class="offering-name"><span class="no">03</span>Improvement</div>
-        <p class="offering-desc">Take the course. Retake the quiz. Every result saved. Watch your IQ score climb.</p>
-      </div>
-    </div>
-
-    <div class="offering reveal d3">
-      <div class="offering-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="#C1FF22" stroke-width="1.4"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5" stroke="#C1FF22" stroke-width="1.4" stroke-linecap="round"/><circle cx="17" cy="7" r="2" stroke="#C1FF22" stroke-width="1.4"/><path d="M15 19c0-2 1.5-4 4-4" stroke="#C1FF22" stroke-width="1.4" stroke-linecap="round"/></svg>
-      </div>
-      <div>
-        <div class="offering-name"><span class="no">04</span>Coach Tools</div>
-        <p class="offering-desc">One link enrolls your whole roster. See every player's IQ score and module progress.</p>
-      </div>
-    </div>
-  </div>
-</section>
-</div>
 
 <!-- CTA -->
 <div class="cta-wrap">
