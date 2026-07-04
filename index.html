@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900&family=Barlow:wght@400;500&family=JetBrains+Mono:wght@500;700&family=Fraunces:ital,opsz,wght@1,9..144,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fda-photo.css">
 <style>
 /* RESET + TOKENS */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -854,6 +855,25 @@ button { font-family: inherit; }
 @media (max-width: 560px) {
   .nav-signin { display: none; }
 }
+
+/* PHOTO SYSTEM — integration (pairs with fda-photo.css) */
+.hero-photo {
+  position: absolute; inset: 0; z-index: 0;
+  margin: 0;
+}
+.level .fda-photo--strip {
+  margin: -32px -28px 22px;
+}
+@media (max-width: 900px) {
+  .level .fda-photo--strip { margin: -32px -28px 20px; }
+}
+.path-photo {
+  position: absolute; inset: 0;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .path.is-player .path-visual { min-height: 380px; }
+}
 </style>
 </head>
 <body>
@@ -882,6 +902,9 @@ button { font-family: inherit; }
 <!-- HERO -->
 <section class="hero">
   <div class="hero-field"></div>
+  <figure class="fda-photo fda-photo--hero fda-photo--charge hero-photo" aria-hidden="true">
+    <img src="img/home-hero.jpg" alt="" loading="eager" fetchpriority="high" onerror="this.closest('figure').style.display='none'">
+  </figure>
   <div class="hero-hashmarks"></div>
 
   <svg class="hero-playbook" viewBox="0 0 560 560" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1016,6 +1039,9 @@ button { font-family: inherit; }
 
   <div class="levels">
     <article class="level reveal" data-big="01">
+      <figure class="fda-photo fda-photo--strip">
+        <img src="img/home-level-1.jpg" alt="Football gear resting on the field" loading="lazy" onerror="this.closest('figure').style.display='none'">
+      </figure>
       <div class="level-status live"><span class="pip"></span>Live · Open Enrollment</div>
       <div class="level-level">Level 01</div>
       <h3 class="level-title">Rookie</h3>
@@ -1027,6 +1053,9 @@ button { font-family: inherit; }
     </article>
 
     <article class="level is-locked reveal d1" data-big="02">
+      <figure class="fda-photo fda-photo--strip">
+        <img src="img/home-level-2.jpg" alt="Players kneeling together in a huddle" loading="lazy" onerror="this.closest('figure').style.display='none'">
+      </figure>
       <div class="level-status locked"><span class="pip"></span>Coming Soon</div>
       <div class="level-level">Level 02</div>
       <h3 class="level-title">Starter</h3>
@@ -1038,6 +1067,9 @@ button { font-family: inherit; }
     </article>
 
     <article class="level is-locked reveal d2" data-big="03">
+      <figure class="fda-photo fda-photo--strip">
+        <img src="img/home-level-3.jpg" alt="Players under stadium lights at night" loading="lazy" onerror="this.closest('figure').style.display='none'">
+      </figure>
       <div class="level-status locked"><span class="pip"></span>Coming Soon</div>
       <div class="level-level">Level 03</div>
       <h3 class="level-title">Elite</h3>
@@ -1068,56 +1100,10 @@ button { font-family: inherit; }
       </a>
     </div>
     <div class="path-visual">
-      <svg viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-        <rect width="600" height="480" fill="#05101d"/>
-        <defs>
-          <pattern id="p-grid" width="48" height="48" patternUnits="userSpaceOnUse">
-            <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
-          </pattern>
-        </defs>
-        <rect width="600" height="480" fill="url(#p-grid)"/>
-        <!-- yard lines -->
-        <line x1="0" y1="140" x2="600" y2="140" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
-        <line x1="0" y1="240" x2="600" y2="240" stroke="rgba(255,255,255,.16)" stroke-width="1.5"/>
-        <text x="16" y="244" font-family="JetBrains Mono" font-size="10" fill="rgba(255,255,255,.3)" letter-spacing="2">50</text>
-        <!-- LOS -->
-        <line x1="60" y1="360" x2="540" y2="360" stroke="rgba(193,255,34,.35)" stroke-width="1.5" stroke-dasharray="6 4"/>
-        <!-- OL -->
-        <g fill="#C1FF22">
-          <circle cx="220" cy="360" r="8"/>
-          <circle cx="260" cy="360" r="8"/>
-          <circle cx="300" cy="360" r="8"/>
-          <circle cx="340" cy="360" r="8"/>
-          <circle cx="380" cy="360" r="8"/>
-        </g>
-        <!-- QB -->
-        <circle cx="300" cy="400" r="10" fill="none" stroke="#C1FF22" stroke-width="2.5"/>
-        <text x="293" y="405" font-family="Barlow Condensed" font-size="12" font-weight="800" fill="#C1FF22">QB</text>
-        <!-- WRs -->
-        <circle cx="120" cy="360" r="8" fill="#C1FF22" opacity=".85"/>
-        <circle cx="480" cy="360" r="8" fill="#C1FF22" opacity=".85"/>
-        <circle cx="440" cy="350" r="8" fill="#C1FF22" opacity=".65"/>
-        <!-- Routes -->
-        <path d="M 120 360 L 120 180" stroke="#C1FF22" stroke-width="2" stroke-dasharray="5 5" fill="none"/>
-        <polygon points="120,172 114,184 126,184" fill="#C1FF22"/>
-        <text x="102" y="164" font-family="JetBrains Mono" font-size="10" fill="#C1FF22">9 · GO</text>
-        <path d="M 440 350 L 440 260 L 380 210" stroke="#C1FF22" stroke-width="2" stroke-dasharray="5 5" fill="none"/>
-        <polygon points="374,206 384,204 380,216" fill="#C1FF22"/>
-        <text x="378" y="200" font-family="JetBrains Mono" font-size="10" fill="#C1FF22">7 · POST</text>
-        <path d="M 480 360 L 480 290 L 540 290" stroke="#C1FF22" stroke-width="2" stroke-dasharray="5 5" fill="none"/>
-        <polygon points="548,290 536,285 536,295" fill="#C1FF22"/>
-        <text x="496" y="284" font-family="JetBrains Mono" font-size="10" fill="#C1FF22">0 · OUT</text>
-        <!-- Defense -->
-        <g stroke="rgba(255,255,255,.55)" stroke-width="2">
-          <path d="M 214 290 L 226 302 M 226 290 L 214 302"/>
-          <path d="M 294 290 L 306 302 M 306 290 L 294 302"/>
-          <path d="M 374 290 L 386 302 M 386 290 L 374 302"/>
-          <path d="M 154 220 L 166 232 M 166 220 L 154 232"/>
-          <path d="M 434 220 L 446 232 M 446 220 L 434 232"/>
-          <path d="M 294 150 L 306 162 M 306 150 L 294 162"/>
-        </g>
-      </svg>
-      <div class="path-visual-cap">Smash · vs Cover 3</div>
+      <figure class="fda-photo fda-photo--scrim path-photo">
+        <img src="img/home-player.jpg" alt="Young football player in full gear, focused before the snap" loading="lazy" onerror="this.closest('figure').style.display='none'">
+      </figure>
+      <div class="path-visual-cap">Every Position · Ages 8–18</div>
     </div>
   </div>
 
