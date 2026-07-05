@@ -1,0 +1,20 @@
+# First Down Academy — marketing site redirects
+# Every page that moved to app.firstdownacademy.com 301s there,
+# so old shared links (coach referrals, score shares, bookmarks,
+# emails) keep working forever. Query strings pass through
+# automatically, so ?ref=CODE survives the hop.
+
+/auth.html          https://app.firstdownacademy.com/auth.html          301
+/signup.html        https://app.firstdownacademy.com/signup.html        301
+/coach-signup.html  https://app.firstdownacademy.com/coach-signup.html  301
+/forgot.html        https://app.firstdownacademy.com/forgot.html        301
+/reset.html         https://app.firstdownacademy.com/reset.html         301
+/dashboard.html     https://app.firstdownacademy.com/dashboard.html     301
+/lesson.html        https://app.firstdownacademy.com/lesson.html        301
+/levels.html        https://app.firstdownacademy.com/levels.html        301
+/giq-exam.html      https://app.firstdownacademy.com/giq-exam.html      301
+/giq-result.html    https://app.firstdownacademy.com/giq-result.html    301
+/score-share.html   https://app.firstdownacademy.com/score-share.html   301
+
+# Legacy quiz page (deleted) -> current quiz
+/giq.html           https://app.firstdownacademy.com/giq-exam.html      301

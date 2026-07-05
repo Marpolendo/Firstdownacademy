@@ -249,15 +249,15 @@ img{display:block;max-width:100%;}
   <div class="pg-nav-links">
     <a href="index.html" class="pg-nav-link pg-nav-home">Home</a>
     <a href="program.html" class="pg-nav-link">Curriculum</a>
-    <a href="giq-exam.html" class="pg-nav-link">IQ Lab</a>
+    <a href="https://app.firstdownacademy.com/giq-exam.html" class="pg-nav-link">IQ Lab</a>
     <a href="coaches.html" class="pg-nav-link active">Coaches</a>
     <a href="safety.html" class="pg-nav-link">Safety</a>
-    <a href="dashboard.html" class="pg-nav-link" id="nav-dashboard" style="display:none;">Dashboard</a>
+    <a href="https://app.firstdownacademy.com/dashboard.html" class="pg-nav-link" id="nav-dashboard" style="display:none;">Dashboard</a>
   </div>
   <div class="pg-nav-right">
-    <a href="auth.html?tab=login" class="pg-nav-signin" id="navSignin">Sign In</a>
-    <a href="dashboard.html" class="pg-nav-dash" id="navDashBtn">Dashboard</a>
-    <a href="auth.html" class="pg-nav-cta">Get Coach Link</a>
+    <a href="https://app.firstdownacademy.com/auth.html?tab=login" class="pg-nav-signin" id="navSignin">Sign In</a>
+    <a href="https://app.firstdownacademy.com/dashboard.html" class="pg-nav-dash" id="navDashBtn">Dashboard</a>
+    <a href="https://app.firstdownacademy.com/auth.html" class="pg-nav-cta">Get Coach Link</a>
   </div>
 </nav>
 
@@ -287,7 +287,7 @@ img{display:block;max-width:100%;}
     <h1 class="pg-hero-h1">Your Roster.<br><span class="lime">Smarter.</span><br>Before Practice.</h1>
     <p class="pg-hero-sub"><strong>Share one link.</strong> First Down Academy installs the football knowledge. You run the practice you actually want to run.</p>
     <div class="pg-hero-btns">
-      <a href="auth.html" class="btn-lime">Get Your Free Coach Link &rarr;</a>
+      <a href="https://app.firstdownacademy.com/auth.html" class="btn-lime">Get Your Free Coach Link &rarr;</a>
       <a href="program.html" class="btn-ghost">View the Curriculum</a>
     </div>
   </div>
@@ -450,7 +450,7 @@ img{display:block;max-width:100%;}
   <div class="pg-cta-inner">
     <div class="pg-cta-title">Build a Smarter Roster.</div>
     <p class="pg-cta-body">Two minutes to set up. Your players can start building football IQ tonight.</p>
-    <a href="auth.html" class="btn-lime">Create Your Coach Account &rarr;</a>
+    <a href="https://app.firstdownacademy.com/auth.html" class="btn-lime">Create Your Coach Account &rarr;</a>
     
   </div>
 </div>
@@ -459,7 +459,7 @@ img{display:block;max-width:100%;}
   <div class="pg-footer-brand">First Down Academy</div>
   <div class="pg-footer-links">
     <a href="program.html" class="pg-footer-link">Program</a>
-    <a href="giq-exam.html" class="pg-footer-link">Gridiron IQ</a>
+    <a href="https://app.firstdownacademy.com/giq-exam.html" class="pg-footer-link">Gridiron IQ</a>
     <a href="coaches.html" class="pg-footer-link">Coaches</a>
     <a href="legal.html" class="pg-footer-link">Privacy</a>
     <a href="legal.html" class="pg-footer-link">Terms</a>
@@ -468,8 +468,8 @@ img{display:block;max-width:100%;}
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="curriculum.js?v=4"></script>
-<script src="app.js?v=4"></script>
+<script src="curriculum.js?v=6"></script>
+<script src="app.js?v=6"></script>
 <script>
 var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add("on");});},{threshold:.1,rootMargin:"0px 0px -30px 0px"});
 document.querySelectorAll(".rv,.rv2,.rv3").forEach(function(el){obs.observe(el);});
@@ -509,7 +509,7 @@ document.querySelectorAll(".pg-faq-q").forEach(function(q){
     }
   });
 });
-function showPage(n){var m={"home":"index.html","signup":"auth.html","dashboard":"dashboard.html"};if(m[n])window.location.href=m[n];}
+function showPage(n){var m={"home":"index.html","signup":"https://app.firstdownacademy.com/auth.html","dashboard":"https://app.firstdownacademy.com/dashboard.html"};if(m[n])window.location.href=m[n];}
 function buildModuleList(){}
 function loadDashboard(){}
 function buildDashModuleList(){}
