@@ -815,9 +815,11 @@ button { font-family: inherit; }
 
 /* BOTTOM NAV (mobile) */
 
-/* REVEAL */
-.reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
-.reveal.on { opacity: 1; transform: translateY(0); }
+/* REVEAL — fail-safe: content is visible by default; the script opts in
+   to the entrance animation by adding .js-anim to <html>. If JS is blocked,
+   broken, or slow, every section still renders. */
+.reveal { opacity: 1; transform: none; transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.js-anim .reveal:not(.on) { opacity: 0; transform: translateY(14px); }
 .reveal.d1 { transition-delay: .07s; }
 .reveal.d2 { transition-delay: .14s; }
 .reveal.d3 { transition-delay: .21s; }
@@ -1295,10 +1297,20 @@ button { font-family: inherit; }
 <script src="curriculum.js?v=4"></script>
 <script src="app.js?v=4"></script>
 <script>
-var obs = new IntersectionObserver(function(entries){
-  entries.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('on'); });
-}, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+try {
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
+  // Only hide content once the observer provably exists
+  document.documentElement.classList.add('js-anim');
+  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+  // Rescue timer: if anything is still hidden after 1.5s, show it all
+  setTimeout(function(){
+    document.querySelectorAll('.reveal:not(.on)').forEach(function(el){ el.classList.add('on'); });
+  }, 1500);
+} catch (e) {
+  document.documentElement.classList.remove('js-anim');
+}
 
 /* Drive bar — scroll progress */
 (function(){
