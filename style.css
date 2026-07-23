@@ -1936,3 +1936,52 @@ footer { background:var(--navy); padding:48px 0 32px; border-top:1px solid rgba(
   font-family:var(--font-m);font-size:11px;color:var(--grey-500);
   width:32px;text-align:right;flex-shrink:0;
 }
+
+/* ── LEGAL PAGE ── */
+.btn-sm { font-size:14px; padding:10px 24px; }
+.legal-page { padding-top:64px; min-height:100vh; background:var(--off); }
+.legal-container { max-width:860px; margin:0 auto; padding:48px 24px 80px; }
+.legal-tabs { display:flex; gap:12px; margin-bottom:40px; flex-wrap:wrap; }
+.legal-back { margin-left:auto; text-decoration:none; }
+.legal-title { font-family:var(--font-d); font-weight:900; font-size:52px; color:var(--navy); text-transform:uppercase; margin-bottom:8px; }
+.legal-date { font-size:14px; color:var(--muted); margin-bottom:40px; }
+.legal-callout { border-radius:8px; padding:16px 20px; margin-bottom:32px; }
+.legal-callout p { font-size:14px; font-weight:500; }
+.legal-callout-amber { background:#FEF3C7; border-left:4px solid var(--orange); }
+.legal-callout-amber p { color:#78350F; }
+.legal-callout-blue { background:#EFF6FF; border-left:4px solid #3B82F6; padding:14px 18px; margin-bottom:14px; }
+.legal-callout-blue p { color:#1E40AF; }
+.legal-sections { display:flex; flex-direction:column; gap:32px; }
+.legal-section h2 { font-family:var(--font-d); font-weight:800; font-size:22px; color:var(--navy); text-transform:uppercase; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid var(--gray); }
+.legal-section p { font-size:15px; color:var(--text); line-height:1.75; }
+.legal-contact { background:var(--navy); border-radius:12px; padding:24px; }
+.legal-contact p { font-size:15px; color:rgba(255,255,255,.7); }
+.legal-contact a { color:var(--orange); }
+
+/* ── LEVELS PAGE ── */
+.levels-body { padding:80px 0; }
+.container-narrow { max-width:900px; }
+.level-row { display:grid; grid-template-columns:1fr 2fr; gap:40px; align-items:start; margin-bottom:64px; padding-bottom:64px; border-bottom:2px solid var(--gray); }
+.level-row:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+.level-row--soon { opacity:.7; }
+.level-row--future { opacity:.5; }
+.level-badge { width:80px; height:80px; border-radius:20px; display:flex; align-items:center; justify-content:center; font-family:var(--font-d); font-size:48px; margin-bottom:20px; }
+.level-badge--active { background:var(--orange); color:#fff; }
+.level-badge--locked { background:var(--gray); color:var(--muted); }
+.level-name { font-family:var(--font-d); font-size:32px; color:var(--navy); letter-spacing:.04em; margin-bottom:8px; }
+.level-name--locked { color:var(--muted); }
+.level-status { font-family:var(--font-m); font-size:11px; letter-spacing:.1em; text-transform:uppercase; padding:4px 12px; border-radius:100px; }
+.level-status--live { background:rgba(34,197,94,.15); color:#15803D; border:1px solid rgba(34,197,94,.3); }
+.level-status--soon { background:var(--off); color:var(--muted); border:1px solid var(--gray); }
+.level-meta { margin-top:20px; font-size:13px; color:var(--muted); }
+.level-desc { font-size:16px; color:var(--text); line-height:1.8; margin-bottom:20px; }
+.level-desc--locked { color:var(--muted); }
+.level-features { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.level-feature { padding:14px 16px; background:var(--off); border-radius:10px; border:1px solid var(--gray); font-size:13px; color:var(--navy); }
+.level-feature--wide { grid-column:span 2; }
+.level-cta { margin-top:24px; display:inline-flex; align-items:center; gap:8px; }
+.level-waitlist { padding:20px; background:var(--off); border-radius:12px; border:1px solid var(--gray); }
+.level-waitlist-label { font-family:var(--font-m); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.level-waitlist-link { font-size:14px; color:var(--blue); }
+.footer-brand img { height:36px; width:36px; object-fit:contain; }
+.footer-brand .logo { line-height:1.2; }
