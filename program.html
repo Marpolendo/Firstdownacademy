@@ -82,7 +82,9 @@ img{display:block;max-width:100%;}
 .pg-marquee-item{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#C1FF22;padding:0 28px;display:inline-flex;align-items:center;gap:24px;}
 .pg-marquee-item::after{content:"\25C6";font-size:6px;opacity:.5;}
 /* Sections */
-.pg-section{padding:64px 28px;}
+.pg-section{padding:64px 28px;position:relative;overflow:hidden;}
+.pg-section--bg1{background:#020f1e;}
+.pg-section--bg2{background:#081b2c;}
 .pg-section-inner{max-width:960px;margin:0 auto;position:relative;z-index:1;}
 .pg-label{font-family:var(--fm);font-weight:500;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);display:flex;align-items:center;gap:10px;margin-bottom:14px;}
 .pg-label::before{content:'';width:22px;height:1.5px;background:var(--lime);}
@@ -94,13 +96,14 @@ img{display:block;max-width:100%;}
 .pg-level{background:#081b2c;padding:28px 24px;position:relative;overflow:hidden;border-left:2px solid rgba(193,255,34,.1);}
 .pg-level.active{border-left-color:#C1FF22;}
 .pg-level.dim{opacity:.55;}
+.pg-level.dim.pg-level--dimmer{opacity:.45;}
 .pg-level-bg{font-family:'Barlow Condensed',sans-serif;font-size:80px;font-weight:900;color:rgba(193,255,34,.04);position:absolute;bottom:-10px;right:-4px;line-height:1;pointer-events:none;}
 .pg-level-tag{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#C1FF22;margin-bottom:8px;}
 .pg-level.dim .pg-level-tag{color:rgba(255,255,255,.25);}
 .pg-level-name{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:6px;}
 .pg-level.dim .pg-level-name{color:rgba(255,255,255,.4);}
 .pg-level-meta{font-size:12px;color:rgba(255,255,255,.3);margin-bottom:14px;}
-.pg-level-badge{display:inline-flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(34,197,94,.12);color:#22C55E;border:1px solid rgba(34,197,94,.25);border-radius:2px;padding:4px 10px;}
+.pg-level-badge{display:inline-flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(34,197,94,.12);color:#22C55E;border:1px solid rgba(34,197,94,.25);border-radius:2px;padding:4px 10px;margin-top:20px;}
 .pg-level-badge.soon{background:rgba(255,255,255,.05);color:rgba(255,255,255,.3);border-color:rgba(255,255,255,.1);}
 .pg-level-divider{height:1px;background:rgba(255,255,255,.06);margin:18px 0;}
 .pg-level-focuses{display:flex;flex-direction:column;gap:8px;}
@@ -301,7 +304,7 @@ img{display:block;max-width:100%;}
 </div>
 
 <!-- LEVELS -->
-<div class="pg-section" style="background:#020f1e;position:relative;overflow:hidden;">
+<div class="pg-section pg-section--bg1">
   <div class="tx-yard"></div>
   <div class="pg-section-inner">
     <div class="rv"><div class="pg-label">The Progression</div><div class="pg-title">Three <span class="lime">Levels.</span></div></div>
@@ -333,7 +336,7 @@ img{display:block;max-width:100%;}
           <span class="pg-level-iq-label">Gridiron IQ Test</span>
           <span class="pg-level-iq-range">Rookie &rarr; Pro level</span>
         </div>
-        <div class="pg-level-badge" style="margin-top:20px;">&#10003; Available Now</div>
+        <div class="pg-level-badge">&#10003; Available Now</div>
       </div>
 
       <!-- LEVEL 2 — COMING SOON -->
@@ -362,11 +365,11 @@ img{display:block;max-width:100%;}
           <span class="pg-level-iq-label">Gridiron IQ Test</span>
           <span class="pg-level-iq-range">Pro &rarr; MVP level</span>
         </div>
-        <div class="pg-level-badge soon" style="margin-top:20px;">Coming Soon</div>
+        <div class="pg-level-badge soon">Coming Soon</div>
       </div>
 
       <!-- LEVEL 3 — PLANNED -->
-      <div class="pg-level dim rv2" style="opacity:.45;">
+      <div class="pg-level dim rv2 pg-level--dimmer">
         <div class="pg-level-bg">3</div>
         <div class="pg-level-tag">Planned</div>
         <div class="pg-level-name">Elite</div>
@@ -391,7 +394,7 @@ img{display:block;max-width:100%;}
           <span class="pg-level-iq-label">Gridiron IQ Test</span>
           <span class="pg-level-iq-range">MVP &rarr; Elite level</span>
         </div>
-        <div class="pg-level-badge soon" style="margin-top:20px;">Planned</div>
+        <div class="pg-level-badge soon">Planned</div>
       </div>
 
     </div>
@@ -399,7 +402,7 @@ img{display:block;max-width:100%;}
 </div>
 
 <!-- 5 PILLARS -->
-<div class="pg-section" style="background:#081b2c;position:relative;overflow:hidden;">
+<div class="pg-section pg-section--bg2">
   <div class="tx-dots"></div>
   <!-- Faint field goal uprights SVG -->
   <svg style="position:absolute;top:0;right:60px;opacity:.04;pointer-events:none;" width="180" height="100%" viewBox="0 0 180 400" fill="none" preserveAspectRatio="none">
@@ -446,7 +449,7 @@ img{display:block;max-width:100%;}
 </div>
 
 <!-- MODULES -->
-<div class="pg-section" style="background:#020f1e;position:relative;overflow:hidden;">
+<div class="pg-section pg-section--bg1">
   <div class="tx-hash" style="opacity:.6;"></div>
   <div class="pg-section-inner">
     <div class="rv">

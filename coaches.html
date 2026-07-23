@@ -95,7 +95,9 @@ img{display:block;max-width:100%;}
 .pg-marquee-item{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#C1FF22;padding:0 28px;display:inline-flex;align-items:center;gap:24px;}
 .pg-marquee-item::after{content:"\25C6";font-size:6px;opacity:.5;}
 /* Sections */
-.pg-section{padding:72px 28px;}
+.pg-section{padding:72px 28px;position:relative;overflow:hidden;}
+.pg-section--bg1{background:var(--bg);}
+.pg-section--bg2{background:#081b2c;}
 .pg-section-inner{max-width:960px;margin:0 auto;position:relative;z-index:1;}
 .pg-label{font-family:var(--fm);font-weight:500;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);display:flex;align-items:center;gap:10px;margin-bottom:14px;}
 .pg-label::before{content:'';width:22px;height:1.5px;background:var(--lime);}
@@ -307,7 +309,7 @@ img{display:block;max-width:100%;}
   </div>
 </div>
 
-<div class="pg-section" style="background:#020f1e;position:relative;overflow:hidden;">
+<div class="pg-section pg-section--bg1">
   <div class="tx-yard"></div>
   <div class="pg-section-inner">
     <div class="rv"><div class="pg-label">How It Works</div><div class="pg-title">Three Steps to a <span class="lime">Smarter Roster.</span></div></div>
@@ -335,7 +337,7 @@ img{display:block;max-width:100%;}
 </div>
 
 <!-- DASHBOARD PREVIEW -->
-<div class="pg-section" style="background:var(--bg);position:relative;overflow:hidden;padding-top:0;">
+<div class="pg-section pg-section--bg1" style="padding-top:0;">
   <div class="pg-section-inner">
     <div class="rv"><div class="pg-label">Your Dashboard</div><div class="pg-title">See every player. <span class="lime">Every week.</span></div>
     <p style="font-size:15px;color:var(--muted);max-width:54ch;line-height:1.7;">Roster IQ scores, module progress, and pre-vs-post improvement &mdash; the proof your program is developing smarter players, on one screen.</p></div>
@@ -389,7 +391,7 @@ img{display:block;max-width:100%;}
   <div class="pg-free-pill">No setup required</div>
 </div>
 
-<div class="pg-section" style="background:#081b2c;position:relative;overflow:hidden;">
+<div class="pg-section pg-section--bg2">
   <div class="tx-dots"></div>
   <div class="pg-section-inner">
     <div class="rv"><div class="pg-label">The Benefits</div><div class="pg-title">What Coaches <span class="lime">Actually Get.</span></div></div>
@@ -419,7 +421,7 @@ img{display:block;max-width:100%;}
 </div>
 
 <!-- FAQ / OBJECTIONS -->
-<div class="pg-section" style="background:var(--bg);position:relative;overflow:hidden;">
+<div class="pg-section pg-section--bg1">
   <div class="pg-section-inner">
     <div class="rv"><div class="pg-label">Straight Answers</div><div class="pg-title">What coaches <span class="lime">ask us.</span></div></div>
     <div class="pg-faq rv2">
