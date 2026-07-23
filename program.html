@@ -242,13 +242,14 @@ img{display:block;max-width:100%;}
   <div class="pg-nav-links">
     <a href="index.html" class="pg-nav-link pg-nav-home">Home</a>
     <a href="program.html" class="pg-nav-link active">Curriculum</a>
-    <a href="https://app.firstdownacademy.com/giq-exam.html" class="pg-nav-link">IQ Lab</a>
+    <a href="levels.html" class="pg-nav-link">Levels</a>
+    <a href="https://app.firstdownacademy.com/giq-exam.html" class="pg-nav-link">IQ Exam</a>
     <a href="coaches.html" class="pg-nav-link">Coaches</a>
     <a href="safety.html" class="pg-nav-link">Safety</a>
     <a href="https://app.firstdownacademy.com/dashboard.html" class="pg-nav-link" id="nav-dashboard" style="display:none;">Dashboard</a>
   </div>
   <div class="pg-nav-right">
-    <a href="https://app.firstdownacademy.com/auth.html?tab=login" class="pg-nav-signin" id="navSignin">Sign In</a>
+    <a href="https://app.firstdownacademy.com/auth.html?tab=login" class="pg-nav-signin" id="navSignin">Log In</a>
     <a href="https://app.firstdownacademy.com/dashboard.html" class="pg-nav-dash" id="navDashBtn">Dashboard</a>
     <a href="https://app.firstdownacademy.com/auth.html" class="pg-nav-cta">Start Free</a>
   </div>
@@ -508,11 +509,6 @@ function buildModuleList(){}
 function loadDashboard(){}
 function buildDashModuleList(){}
 function loadGIQScore(){}
-function updateNavForLoggedIn(){
-  var si=document.getElementById("navSignin");if(si)si.style.display="none";
-  var db=document.getElementById("navDashBtn");if(db)db.style.display="inline-flex";
-  var dl=document.getElementById("nav-dashboard");if(dl)dl.style.display="block";
-}
 function openModule(idx){
   sessionStorage.setItem("openModule",idx);
   window.location.href="https://app.firstdownacademy.com/lesson.html";

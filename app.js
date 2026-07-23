@@ -212,6 +212,8 @@ async function loadProfile() {
 function updateNavForLoggedIn() {
   var dashLink = document.getElementById('nav-dashboard');
   if (dashLink) dashLink.style.display = 'block';
+  var signin = document.getElementById('navSignin');
+  if (signin) signin.style.display = 'none';
   var authBtns = document.getElementById('navAuthBtns');
   if (authBtns) authBtns.style.display = 'none';
   var dashBtn = document.getElementById('navDashBtn');

@@ -13,8 +13,15 @@
 <nav>
   <div class="nav-inner">
     <a class="logo" href="index.html"><img src="logo.png" alt="First Down Academy" style="height:52px;width:auto;object-fit:contain;" onerror="this.style.display:'none'">First Down Academy</a>
-    <div class="nav-links"><a class="nav-link" href="program.html">The Program</a></div>
-    <div class="nav-auth-btns"><a class="btn btn-outline nav-login-btn" href="auth.html?tab=login">Log In</a><a class="btn btn-primary nav-signup-btn" href="auth.html">Sign Up</a></div>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="program.html">Curriculum</a>
+      <a class="nav-link" href="levels.html">Levels</a>
+      <a class="nav-link" href="https://app.firstdownacademy.com/giq-exam.html">IQ Exam</a>
+      <a class="nav-link" href="coaches.html">Coaches</a>
+      <a class="nav-link" href="safety.html">Safety</a>
+    </div>
+    <div class="nav-auth-btns"><a class="btn btn-outline nav-login-btn" href="https://app.firstdownacademy.com/auth.html?tab=login">Log In</a><a class="btn btn-primary nav-signup-btn" href="https://app.firstdownacademy.com/auth.html">Sign Up</a></div>
   </div>
 </nav>
 
@@ -58,4 +65,12 @@
 function setDoc(doc) {
   document.getElementById('legalPrivacy').style.display = doc==='privacy'?'block':'none';
   document.getElementById('legalTerms').style.display = doc==='terms'?'block':'none';
-  document.getElementById('legalTabPriva
+  document.getElementById('legalTabPrivacy').className = 'btn ' + (doc==='privacy' ? 'btn-navy' : 'btn-ghost');
+  document.getElementById('legalTabTerms').className = 'btn ' + (doc==='terms' ? 'btn-navy' : 'btn-ghost');
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="curriculum.js?v=2"></script>
+<script src="app.js?v=2"></script>
+</body>
+</html>
